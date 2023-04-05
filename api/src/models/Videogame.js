@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     plataformas: {
-      type: DataTypes.ARRAY(DataTypes.OBJECT),
+      type: DataTypes.ARRAY(DataTypes.JSON), 
       allowNull: false,
     },
     imagen: {
