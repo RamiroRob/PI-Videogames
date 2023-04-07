@@ -10,10 +10,14 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-router.get("/videogames", getVideogames)
+router.get("/videogames", (req,res) => {
+   if(req.query.name) getVideogamesByName(req,res)
+    else getVideogames(req,res)
+}) 
+    
 router.get("/videogames/:idVideoGame", getOneVideogame)
 
-router.get("/videogames/name", getVideogamesByName)
+// router.get("/videogames/name", getVideogamesByName)
 
 router.post("/videogames", (req, res) => {
     // toda la info va a pasar por body
