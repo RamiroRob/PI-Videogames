@@ -1,5 +1,6 @@
 const { Videogame } = require('../db.js')
 const axios = require('axios');
+const { Op } = require("sequelize");
 
 const getVideogames = async (req, res) => {
     let resultsAPI = []
@@ -78,7 +79,58 @@ const getOneVideogame = async (req, res) => {
     }
 }
 
+const getVideogamesByName = async (req, res) => {
+    const { name } = req.query
+
+    let first15Videogames = []
+
+    try {
+        // Pedido a la base de datos
+        const videogamesDB = await Videogame.findAll({
+            where: {
+                nombre: {
+                    [Op.iLike]: `%${name}%` //busca coincidencias en cualquier parte del nombre, ignorando mayusculas y minusculas
+                }
+            }
+        })
+        if (videogamesDB) first15Videogames = videogamesDB.slice(0, 15)
+    }
+    catch (err) {
+        console.log("No se encontro en la DB, buscando en la API...")
+    }
+
+    while (first15Videogames.length < 15) {
+
+        try {
+
+            // Pedido a la API
+            const videogamesAPI = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${process.env.API_KEY}`)
+            const initialResults = videogamesAPI?.data.results
+
+            // Formateo el resultado de la API
+            /*         first15Videogames = initialResults.map(v => {
+                        return {
+                            id: v.id,
+                            nombre: v.name,
+                            imagen: v.background_image,
+                            fecha_lanzamiento: v.released,
+                            rating: v.rating,
+                            plataforma: v.platforms,
+                            genres: v.genres // TODO: despues vemos si lo eliminamos
+                        }
+                    }) */
+
+            if (videogamesAPI) return res.status(200).json(first15Videogames)
+
+        }
+        catch (err) {
+            res.status(404).json({ message: "No se encontro el videojuego", err })
+        }
+    }
+}
+
 module.exports = {
     getVideogames,
-    getOneVideogame
+    getOneVideogame,
+    getVideogamesByName
 }
