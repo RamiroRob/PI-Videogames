@@ -77,7 +77,6 @@ const getOneVideogame = async (req, res) => {
         // Pedido a la base de datos
         const videogameDB = await Videogame.findByPk(idVideoGame)
         if (videogameDB) return res.status(200).json(videogameDB)
-        // TODO: ver el tema de genres
 
     } catch (err) {
         console.log("No se encontro en la DB, buscando en la API...")
@@ -133,31 +132,11 @@ const createVideogame = async (req, res) => {
     catch (err) {
         res.status(500).json({ message: "No se pudo crear el videojuego", err })
     }
-}
-
-const loadGenres = async (req, res) => {
-    const genres = await axios.get(`https://api.rawg.io/api/genres?key=${process.env.API_KEY}`)
-
-    await genres.data.results.map(g => {
-        Genre.findOrCreate({
-            where: {
-                nombre: g.name
-            }
-        })
-    })
-}
-
-const getGenres = async (req, res) => {
-    const genres = await Genre.findAll()
-    res.status(200).json(genres)
-}
-
+};
 
 module.exports = {
     getVideogames,
     getOneVideogame,
     getVideogamesByName,
-    createVideogame,
-    loadGenres,
-    getGenres
+    createVideogame
 }

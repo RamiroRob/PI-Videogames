@@ -19,7 +19,7 @@ const axios = require('axios');
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
-const { loadGenres } = require('./src/controllers/Videogame.controller.js');
+const { loadGenres } = require('./src/controllers/Genre.controller.js');
 const { conn } = require('./src/db.js');
 
 // Syncing all the models at once.
