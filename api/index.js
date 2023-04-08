@@ -19,11 +19,13 @@ const axios = require('axios');
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
+const { loadGenres } = require('./src/controllers/Videogame.controller.js');
 const { conn } = require('./src/db.js');
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
+    loadGenres()
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
 });

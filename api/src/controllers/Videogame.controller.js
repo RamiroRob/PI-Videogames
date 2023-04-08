@@ -1,4 +1,4 @@
-const { Videogame } = require('../db.js')
+const { Videogame, Genre } = require('../db.js')
 const axios = require('axios');
 const { Op } = require("sequelize");
 const { apiVideogameFormatter } = require('../utils/utils.js');
@@ -6,25 +6,25 @@ const { apiVideogameFormatter } = require('../utils/utils.js');
 
 const getVideogames = async (req, res) => {
     let resultsAPI = []
-    
+
     //Hago 5 llamadas a la API para obtener 100 juegos
     const videogamesPage1 = await axios.get(`https://api.rawg.io/api/games?key=${process.env.API_KEY}`)
     const videogamesPage2 = videogamesPage1?.data.next ? await axios.get(videogamesPage1.data.next) : null
     const videogamesPage3 = videogamesPage2?.data.next ? await axios.get(videogamesPage2.data.next) : null
     const videogamesPage4 = videogamesPage3?.data.next ? await axios.get(videogamesPage3.data.next) : null
     const videogamesPage5 = videogamesPage4?.data.next ? await axios.get(videogamesPage4.data.next) : null
-    
+
     resultsAPI = [...videogamesPage1?.data.results, ...videogamesPage2?.data.results, ...videogamesPage3?.data.results, ...videogamesPage4?.data.results, ...videogamesPage5?.data.results]
-    
+
     //Formateo los resultados de la API
     resultsAPI = resultsAPI.map(apiVideogameFormatter)
-    
+
     // Pedido a la base de datos
     const videogamesDB = await Videogame.findAll()
-    
+
     // Concateno los resultados de la API con los de la base de datos
-    results = [...resultsAPI, ...videogamesDB]
-    
+    results = [...videogamesDB, ...resultsAPI]
+
     console.log(results.length)
     // Envio los resultados
     res.status(200).json(results)
@@ -34,7 +34,7 @@ const getVideogamesByName = async (req, res) => {
     const { name } = req.query
 
     let first15Videogames = []
-    
+
     // Pedido a la base de datos
     try {
         const videogamesDB = await Videogame.findAll({
@@ -51,21 +51,21 @@ const getVideogamesByName = async (req, res) => {
     }
 
     // Pedido a la API
-        try {
-            const videogamesAPI = await axios.get(`https://api.rawg.io/api/games?key=${process.env.API_KEY}&search=${name}`)
-            const initialResults = videogamesAPI?.data.results
+    try {
+        const videogamesAPI = await axios.get(`https://api.rawg.io/api/games?key=${process.env.API_KEY}&search=${name}`)
+        const initialResults = videogamesAPI?.data.results
 
-            initialResults.forEach(v => {
-                if (v.name.toLowerCase().includes(name.toLowerCase())) {
-                    first15Videogames.push(apiVideogameFormatter(v))
-                }
-            })
-        }
-        catch (err) {
-            res.status(404).json({ message: "No se encontro el videojuego", err })
-        }
+        initialResults.forEach(v => {
+            if (v.name.toLowerCase().includes(name.toLowerCase())) {
+                first15Videogames.push(apiVideogameFormatter(v))
+            }
+        })
+    }
+    catch (err) {
+        res.status(404).json({ message: "No se encontro el videojuego", err })
+    }
 
-        res.status(200).json(first15Videogames.slice(0, 15)) // TODO: ver el tema de paginado
+    res.status(200).json(first15Videogames.slice(0, 15)) // TODO: ver el tema de paginado
 }
 
 
@@ -101,8 +101,63 @@ const getOneVideogame = async (req, res) => {
     }
 }
 
+const createVideogame = async (req, res) => {
+    const { nombre, descripcion, fecha_lanzamiento, rating, plataformas, generos } = req.body
+    // console.log(req.body)
+    try {
+        const newVideogame = await Videogame.create({
+            nombre,
+            descripcion,
+            fecha_lanzamiento,
+            rating,
+            plataformas,
+        })
+
+        if (generos.length > 0) {
+            await Promise.all(generos.map(async (genero) => {
+                const gen = await Genre.findOrCreate({
+                    where: {
+                        nombre: genero
+                    }
+                })
+                await newVideogame.addGenre(gen[0]) // agrega a la tabla intermedia
+            }))
+        }
+        const videogameWithGenres = await Videogame.findByPk(newVideogame.id, {
+            include: Genre
+        })
+
+        return res.status(201).json(videogameWithGenres)
+
+    }
+    catch (err) {
+        res.status(500).json({ message: "No se pudo crear el videojuego", err })
+    }
+}
+
+const loadGenres = async (req, res) => {
+    const genres = await axios.get(`https://api.rawg.io/api/genres?key=${process.env.API_KEY}`)
+
+    await genres.data.results.map(g => {
+        Genre.findOrCreate({
+            where: {
+                nombre: g.name
+            }
+        })
+    })
+}
+
+const getGenres = async (req, res) => {
+    const genres = await Genre.findAll()
+    res.status(200).json(genres)
+}
+
+
 module.exports = {
     getVideogames,
     getOneVideogame,
-    getVideogamesByName
+    getVideogamesByName,
+    createVideogame,
+    loadGenres,
+    getGenres
 }
