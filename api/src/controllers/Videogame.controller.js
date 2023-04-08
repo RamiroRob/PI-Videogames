@@ -20,7 +20,9 @@ const getVideogames = async (req, res) => {
     resultsAPI = resultsAPI.map(apiVideogameFormatter)
 
     // Pedido a la base de datos
-    const videogamesDB = await Videogame.findAll()
+    const videogamesDB = await Videogame.findAll({
+        include: Genre
+    })
 
     // Concateno los resultados de la API con los de la base de datos
     results = [...videogamesDB, ...resultsAPI]
@@ -42,7 +44,8 @@ const getVideogamesByName = async (req, res) => {
                 nombre: {
                     [Op.iLike]: `%${name}%` //busca coincidencias en cualquier parte del nombre, ignorando mayusculas y minusculas
                 }
-            }
+            },
+            include: Genre
         })
         if (videogamesDB) first15Videogames = [...videogamesDB]
     }
@@ -75,7 +78,7 @@ const getOneVideogame = async (req, res) => {
     try {
 
         // Pedido a la base de datos
-        const videogameDB = await Videogame.findByPk(idVideoGame)
+        const videogameDB = await Videogame.findByPk(idVideoGame, {include: Genre})
         if (videogameDB) return res.status(200).json(videogameDB)
 
     } catch (err) {
