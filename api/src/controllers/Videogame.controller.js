@@ -27,7 +27,7 @@ const getVideogames = async (req, res) => {
     // Concateno los resultados de la API con los de la base de datos
     results = [...videogamesDB, ...resultsAPI]
 
-    console.log(results.length)
+
     // Envio los resultados
     res.status(200).json(results)
 }
