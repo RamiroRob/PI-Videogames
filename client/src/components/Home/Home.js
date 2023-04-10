@@ -1,13 +1,29 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import Tarjetas from '../Tarjetas/Tarjetas'
 
 export default function Home() {
 
   const [game, setGame] = useState('')
+  const [games, setGames] = useState([])
 
   const handleChange = (e) => {
     setGame(e.target.value)
   }
+
+  useEffect(() => {
+    getInfo()
+  }, [])
+
+  const getInfo = () => {
+    axios.get('http://localhost:3001/videogames')
+    .then(res => res.data)
+    .then(res => {
+      setGames(res)
+    })
+  }
+
+  console.log(games)
   
   return (
     <div>
@@ -18,9 +34,9 @@ export default function Home() {
       </div>
 
       {/* Listado de cards con videogames */}
-
+      <Tarjetas info={games}/>
       <div>
-        
+
       </div>
 
     </div>
