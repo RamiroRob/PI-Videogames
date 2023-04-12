@@ -23,8 +23,8 @@ export default function Home() {
       })
   }
 
-  //TODO: hay que mandar el estado games al reducer para que lo use el componente Tarjetas
 
+  //console.log(videogames) // TODO: eliminar videogames
   return (
     <div>
       <SearchBar />
