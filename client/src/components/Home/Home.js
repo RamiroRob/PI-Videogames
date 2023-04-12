@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import Tarjetas from '../Tarjetas/Tarjetas'
 import Filters from '../Filters/Filters'
+import SearchBar from '../SearchBar/SearchBar'
+import { getVideogames } from '../../redux/actions'
 
 export default function Home() {
 
-  const [game, setGame] = useState('')
   const [games, setGames] = useState([])
-
-  const handleChange = (e) => {
-    setGame(e.target.value)
-  }
+  const dispatch = useDispatch()
 
   useEffect(() => {
     getInfo()
@@ -21,28 +20,17 @@ export default function Home() {
       .then(res => res.data)
       .then(res => {
         setGames(res)
+        dispatch(getVideogames(res))
       })
   }
 
-  console.log(games)
-
+  //TODO: hay que mandar el estado games al reducer para que lo use el componente Tarjetas
 
   return (
     <div>
-      {/* Search Bar */}
-      <div>
-        <input type="text" placeholder="Buscar videojuego" value={game} onChange={handleChange} />
-        <button>Search</button>
-      </div>
-
-      {/* Filtros */}
-    <Filters/>
-
-      {/* Listado de cards con videogames */}
+      <SearchBar />
+      <Filters />
       <Tarjetas info={games} />
-      <div>
-
-      </div>
 
     </div>
   )
