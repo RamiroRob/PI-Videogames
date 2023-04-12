@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import Tarjetas from '../Tarjetas/Tarjetas'
 import Filters from '../Filters/Filters'
@@ -8,8 +8,8 @@ import { getVideogames } from '../../redux/actions'
 
 export default function Home() {
 
-  const [games, setGames] = useState([])
   const dispatch = useDispatch()
+  const videogames = useSelector(state => state.videogames)
 
   useEffect(() => {
     getInfo()
@@ -19,7 +19,6 @@ export default function Home() {
     axios.get('http://localhost:3001/videogames')
       .then(res => res.data)
       .then(res => {
-        setGames(res)
         dispatch(getVideogames(res))
       })
   }
@@ -30,7 +29,7 @@ export default function Home() {
     <div>
       <SearchBar />
       <Filters />
-      <Tarjetas info={games} />
+      <Tarjetas info={videogames} />
 
     </div>
   )

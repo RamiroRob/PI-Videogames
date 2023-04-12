@@ -9,7 +9,6 @@ export const reducer = (state = initialState, actions ) => {
 
         case GET_VIDEOGAMES:
             return {
-                ...state,
                 videogames: actions.payload
             }
         case SELECT_API_OR_DB:
