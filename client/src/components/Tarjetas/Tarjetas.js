@@ -1,18 +1,28 @@
 import React from 'react'
 import Tarjeta from '../Tarjeta/Tarjeta'
 import s from './Tarjetas.module.css'
+import { useSelector } from 'react-redux'
 
-export default function Tarjetas(props) {
-    const { info } = props
+export default function Tarjetas() {
+    const videogames = useSelector(state => state.videogames)
+    const selectedSource = useSelector(state => state.selectedSource)
+    const videogamesFiltered = useSelector(state => state.videogamesFiltered)
 
+    let displayedVideogames = videogames
+
+    if (selectedSource === "API" || selectedSource === "DB") {
+        displayedVideogames = videogamesFiltered
+    }
+
+    console.log(videogamesFiltered)
     return (
         <div className={s.cardContainer}>
-            {info.map(v =>
+            {displayedVideogames && displayedVideogames.map(v =>
                 <Tarjeta 
-                    key={v.nombre}
+                    key={v.id}
                     nombre={v.nombre}
                     imagen={v.imagen}
-                    genres={v.genres.map(g => g.name).join(', ')}
+                    genres={v.genres?.map(g => g.name).join(', ')}
                 />)}
         </div>
     )

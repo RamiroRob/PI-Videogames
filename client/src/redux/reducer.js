@@ -1,7 +1,9 @@
-import { SELECT_API_OR_DB, ORDER_BY_NAME, ORDER_BY_RATING, GET_VIDEOGAMES } from './actions'
+import { ORDER_BY_NAME, ORDER_BY_RATING, GET_VIDEOGAMES, SELECT_SOURCE, SELECT_API_OR_DB } from './actions'
 
 const initialState = {
     videogames: [],
+    videogamesFiltered: [],
+    selectedSource: '',
 }
 
 export const reducer = (state = initialState, actions) => {
@@ -9,11 +11,8 @@ export const reducer = (state = initialState, actions) => {
 
         case GET_VIDEOGAMES:
             return {
-                videogames: actions.payload
-            }
-        case SELECT_API_OR_DB:
-            return {
                 ...state,
+                videogames: actions.payload
             }
 
         case ORDER_BY_NAME:
@@ -49,15 +48,32 @@ export const reducer = (state = initialState, actions) => {
             }
             return state;
 
+        case SELECT_API_OR_DB:
+            if (actions.payload === "AMBOS") {
+                return { 
+                    ...state,
+                    selectedSource: actions.payload,
+                 }
+            } else if (actions.payload === "API") {
+                return { 
+                    ...state, 
+                    selectedSource: actions.payload,
+                    videogamesFiltered: [...state.videogames].filter((game) => !isNaN(game.id))
+                }
+            } else if (actions.payload === "DB") {
+                return { 
+                    ...state, 
+                    selectedSource: actions.payload,
+                    videogamesFiltered: [...state.videogames].filter((game) => isNaN(game.id))
+                }
+            }
+            return state;
+
         default:
-            return { ...state }
+            return state 
     }
 
 }
 
 
-    // case ADD_CHAR:
-    //     return {
-    //         ...state,
-    //         myFavorites: [...state.myFavorites, actions.payload]
-    //     }
+  
