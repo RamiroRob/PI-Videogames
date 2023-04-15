@@ -14,7 +14,7 @@ export default function Tarjetas() {
         displayedVideogames = videogamesFiltered
     }
 
-    // console.log(videogamesFiltered)
+
     return (
         <div className={s.cardContainer}>
             {displayedVideogames && displayedVideogames.map(v =>

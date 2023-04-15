@@ -8,6 +8,13 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import TarjetaDetail from './components/TarjetaDetail/TarjetaDetail';
 
+
+// TODO: componente Detail: se rompe Genre cuando traigo de DB
+// TODO: Cambiar el display para que muestre O el search O todos los resultados
+
+
+
+
 function App() {
 
   const dispatch = useDispatch()

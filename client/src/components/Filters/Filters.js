@@ -7,7 +7,6 @@ export default function Filters() {
 
     const dispatch = useDispatch()
 
-
     const handleDataSource = (e) => {
         dispatch(selectApiOrDb(e.target.value))
     };
@@ -19,7 +18,6 @@ export default function Filters() {
     const handleRatingChange = (e) => {
         dispatch(orderByRating(e.target.value))
     }
-
 
     return (
 
@@ -33,7 +31,7 @@ export default function Filters() {
                 {/* API or DB */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">API o DB:</label>
-                    <select id="dropdown" /* value={selectedSource} */ onChange={handleDataSource}>
+                    <select id="dropdown" onChange={handleDataSource}>
                         <option value="AMBOS">AMBOS</option>
                         <option value="API">API</option>
                         <option value="DB">DB</option>
@@ -44,7 +42,7 @@ export default function Filters() {
                 {/* Orden alfabetico */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">Orden alfabético:</label>
-                    <select id="dropdown" /* value={ordenAlfabetico} */ onChange={handleOrderChange}>
+                    <select id="dropdown" onChange={handleOrderChange}>
                         <option value="Elegir opción">Elegir opción</option>
                         <option value="A-Z">A-Z</option>
                         <option value="Z-A">Z-A</option>
@@ -54,7 +52,7 @@ export default function Filters() {
                 {/* Orden por rating */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">Orden por rating:</label>
-                    <select id="dropdown" /* value={rating} */ onChange={handleRatingChange}>
+                    <select id="dropdown" onChange={handleRatingChange}>
                         <option value="Elegir opción">Elegir opción</option>
                         <option value="Menor a mayor">Menor a mayor</option>
                         <option value="Mayor a menor">Mayor a menor</option>
