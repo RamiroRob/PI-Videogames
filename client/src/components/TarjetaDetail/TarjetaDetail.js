@@ -27,6 +27,7 @@ export default function TarjetaDetail() {
         return div.textContent || div.innerText || '';
     }
 
+// TODO: hay un problema con Genres. Los de la API vienen con .name pero en la base de datos con .nombre. Hay que ponerlo todo igual porque sino se rompe cuando quiero ver el detalle de genero de un juego de la database, busca .name y no lo encuentra. Creo que lo mejor seria modificar la propiedad de la API para que sea .nombre y asi no hay que modificar nada en el front.
 
     return (
         <div className={s.container}>
@@ -40,7 +41,7 @@ export default function TarjetaDetail() {
                     <p className={s.content}><strong>Plataformas:</strong> {videogame.plataformas?.map(p => p.platform.name).join(', ')}</p>
                     <p className={s.content}><strong>Rating:</strong> {videogame.rating}</p>
                     <p className={s.content}><strong>Fecha de lanzamiento:</strong> {videogame.fecha_lanzamiento}</p>
-                    <p className={s.content}><strong>Descripcion:</strong> {removeHtmlTags(videogame.descripcion)}</p> {/* TODO: hay que modificar el contenido */}
+                    <p className={s.content}><strong>Descripcion:</strong> {removeHtmlTags(videogame.descripcion)}</p>
                 </div>
             ) : (
                 <Spinner />
