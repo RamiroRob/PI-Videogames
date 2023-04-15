@@ -14,12 +14,13 @@ export default function Tarjetas() {
         displayedVideogames = videogamesFiltered
     }
 
-    console.log(videogamesFiltered)
+    // console.log(videogamesFiltered)
     return (
         <div className={s.cardContainer}>
             {displayedVideogames && displayedVideogames.map(v =>
                 <Tarjeta 
                     key={v.id}
+                    id = {v.id}
                     nombre={v.nombre}
                     imagen={v.imagen}
                     genres={v.genres?.map(g => g.name).join(', ')}

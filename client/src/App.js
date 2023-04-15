@@ -6,6 +6,7 @@ import Landing from './components/Landing/Landing';
 import { getVideogames } from './redux/actions'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
+import TarjetaDetail from './components/TarjetaDetail/TarjetaDetail';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="/home" element={<Home/>} />
+        <Route path="/videogame/:id" element={<TarjetaDetail/>} />
       </Routes>
     </div>
   );
