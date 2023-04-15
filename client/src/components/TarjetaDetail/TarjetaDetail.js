@@ -41,6 +41,7 @@ export default function TarjetaDetail() {
                     <p className={s.content}><strong>Plataformas:</strong> {videogame.plataformas?.map(p => p.platform.name).join(', ')}</p>
                     <p className={s.content}><strong>Rating:</strong> {videogame.rating}</p>
                     <p className={s.content}><strong>Fecha de lanzamiento:</strong> {videogame.fecha_lanzamiento}</p>
+                    <p className={s.content}><strong>ID:</strong> {videogame.id}</p>
                     <p className={s.content}><strong>Descripcion:</strong> {removeHtmlTags(videogame.descripcion)}</p>
                 </div>
             ) : (
