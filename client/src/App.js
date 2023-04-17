@@ -7,13 +7,12 @@ import { getVideogames } from './redux/actions'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import TarjetaDetail from './components/TarjetaDetail/TarjetaDetail';
+import CreateGame from './components/CreateGame/CreateGame';
 
 
 // TODO: componente Detail: se rompe Genre cuando traigo de DB
 // TODO: Cambiar el display para que muestre O el search O todos los resultados
 // TODO: Revisar tema Genres en el back y DB. 
-
-
 
 
 function App() {
@@ -38,6 +37,7 @@ function App() {
         <Route path="/" element={<Landing/>} />
         <Route path="/home" element={<Home/>} />
         <Route path="/videogame/:id" element={<TarjetaDetail/>} />
+        <Route path="/videogame/create" element={<CreateGame/>} />
       </Routes>
     </div>
   );
