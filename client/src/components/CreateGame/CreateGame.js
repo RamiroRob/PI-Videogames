@@ -9,7 +9,7 @@ export default function CreateGame() {
         descripcion: '',
         fecha_lanzamiento: '',
         rating: '',
-        plataformas: '',
+        plataformas: [],
         generos: [],
     })
 
@@ -25,10 +25,27 @@ export default function CreateGame() {
         getGenre()
     }, [])
 
-    console.log("All", genres)
-    console.log("selected", data.generos)
+
+    const handleChange = (e) => {
+        setData((prevData) => ({
+            ...prevData,
+            [e.target.name]: e.target.value
+        }))
+    }
 
 
+    // Tuve que crear uno nuevo para que funcione con array, usando split
+    const handleChangePlataformas = (e) => {
+        const input = e.target.value
+        const resultado = input.split(',')
+        setData((prevData) => ({
+            ...prevData,
+            plataformas: resultado
+        }))
+    }
+
+
+    // Para cambiar el estado de los generos y mandarlo en el form
     const handleSelectChange = (e) => {
         const options = e.target.options
         const selectedGenres = []
@@ -43,32 +60,49 @@ export default function CreateGame() {
         }))
     }
 
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        fetch('http://localhost:3001/videogames', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                },
+            body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
+    }
+
+
     return (
         <div>
-            <form className={s.form}>
+            <form className={s.form} onSubmit={handleSubmit} >
                 <label>Nombre</label>
-                <input type="text" name="nombre" />
+                <input type="text" name="nombre" value={data.nombre} onChange={handleChange} />
                 <label>Imagen</label>
-                <input type="text" name="imagen" />
+                <input type="text" name="imagen" value={data.imagen} onChange={handleChange} />
                 <label>Descripcion</label>
-                <input type="text" name="descripcion" />
+                <input type="text" name="descripcion" value={data.descripcion} onChange={handleChange} />
                 <label>Fecha de lanzamiento</label>
-                <input type="text" name="fecha_lanzamiento" />
+                <input type="text" name="fecha_lanzamiento" value={data.fecha_lanzamiento} onChange={handleChange} />
                 <label>Rating</label>
-                <input type="text" name="rating" />
+                <input type="text" name="rating" value={data.rating} onChange={handleChange} />
                 <label>Plataformas</label>
-                <input type="text" name="plataformas" />
+                <input type="text" name="plataformas" value={data.plataformas} onChange={handleChangePlataformas} />
 
                 <label>Generos</label>
                 <select
                     multiple
                     name="generos"
-                    onChange={handleSelectChange}>
+                    onChange={handleSelectChange}
+                    >
 
                     {genres?.map((genre,index )=> 
                     <option value={genre} 
                     key={index}
-                    selected={genres.includes(genre)}
                     >{genre}</option>)}
                 </select>
 
