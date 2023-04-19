@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import s from './CreateGame.module.css'
+import {required, minLength, maxLength, isRating} from '../../utils/formValidation'
 
 export default function CreateGame() {
+
+    const [errors, setErrors] = useState({})
 
     const [data, setData] = useState({
         nombre: '',
@@ -27,6 +30,29 @@ export default function CreateGame() {
 
 
     const handleChange = (e) => {
+
+        const {name, value} = e.target
+        let error;
+
+        switch (name) {
+            case 'nombre':
+                error = !required(value) ? 'Name is required' : null;
+                break;
+            case 'descripcion':
+                error = !minLength(5)(value) ? 'La descripción debe tener al menos 5 caracteres' : null;
+                break;
+            case 'rating':
+                error = !isRating(value) ? 'El rating debe ser un número entre 0 y 5' : null;
+                break;
+            default:
+                error = null;
+        }
+    
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: error,
+        }));
+
         setData((prevData) => ({
             ...prevData,
             [e.target.name]: e.target.value
@@ -82,14 +108,21 @@ export default function CreateGame() {
             <form className={s.form} onSubmit={handleSubmit} >
                 <label>Nombre</label>
                 <input type="text" name="nombre" value={data.nombre} onChange={handleChange} />
+                {errors.nombre && <p className={s.error}>{errors.nombre}</p>}
+
                 <label>Imagen</label>
                 <input type="text" name="imagen" value={data.imagen} onChange={handleChange} />
+
                 <label>Descripcion</label>
                 <input type="text" name="descripcion" value={data.descripcion} onChange={handleChange} />
+                {errors.descripcion && <p className={s.error}>{errors.descripcion}</p>}
+
                 <label>Fecha de lanzamiento</label>
                 <input type="text" name="fecha_lanzamiento" value={data.fecha_lanzamiento} onChange={handleChange} />
                 <label>Rating</label>
                 <input type="text" name="rating" value={data.rating} onChange={handleChange} />
+                {errors.rating && <p className={s.error}>{errors.rating}</p>}
+                
                 <label>Plataformas</label>
                 <input type="text" name="plataformas" value={data.plataformas} onChange={handleChangePlataformas} />
 

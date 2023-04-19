@@ -8,11 +8,11 @@ const Pagination = ({ page, handlePageChange }) => {
         onClick={() => handlePageChange(page - 1)}
         disabled={page === 1}
       >
-        Previous
+        Anterior
       </button>
-      <span>Page {page}</span>
+      <span> Página {page} </span>
       <button onClick={() => handlePageChange(page + 1)}>
-        Next
+        Siguiente
       </button>
     </div>
   );
