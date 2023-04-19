@@ -14,6 +14,7 @@ import CreateGame from './components/CreateGame/CreateGame';
 // TODO: Cambiar el display para que muestre O el search O todos los resultados
 // TODO: Revisar tema Genres en el back y DB. 
 // TODO: agregar validaciones a createForm
+// TODO: Sacar el slice de 0,15 en API endpoint byName
 
 
 function App() {
