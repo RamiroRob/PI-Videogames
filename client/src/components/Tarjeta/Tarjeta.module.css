@@ -1,34 +1,23 @@
+/* Style each card */
+.card {
+  width: calc(
+    (100% / 4) - 20px
+  ); /* 4 cards per row with a little space between them */
+  margin-bottom: 30px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  min-width: 250px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
 
-  
-  /* Style each card */
-  .card {
-    width: calc((100%/4) - 20px); /* 4 cards per row with a little space between them */
-    margin-bottom: 30px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    overflow: hidden;
-    min-width: 250px;
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
   }
 
-
-@media screen and (max-width: 1100px) {
-    .card {
-      width: calc((100% / 3) - 20px); /* 3 cards per row, with 20px margin between them */
-    }
-  }
-  
-  @media screen and (max-width: 770px) {
-    .card {
-      width: calc((100% / 2) - 20px); /* 2 cards per row, with 20px margin between them */
-    }
-  }
-
-  @media screen and (max-width: 550px) {
-    .card {
-      width: calc((100%) - 20px); /* 2 cards per row, with 20px margin between them */
-    }
-  }
-  
   /* Style the image inside the card */
   .card img {
     width: 100%;
@@ -37,17 +26,41 @@
   }
   
   /* Add some padding and styles for the card content */
-
   
   .cardTitle {
     font-size: 18px;
     font-weight: bold;
     margin: 0 0 10px;
+    padding: 15px;
   }
   
   .card-description {
     font-size: 14px;
     line-height: 1.4;
     margin: 0;
+    padding: 0 15px 15px;
   }
   
+  @media screen and (max-width: 1100px) {
+    .card {
+      width: calc(
+        (100% / 3) - 20px
+      ); /* 3 cards per row, with 20px margin between them */
+    }
+  }
+  
+  @media screen and (max-width: 770px) {
+    .card {
+      width: calc(
+        (100% / 2) - 20px
+      ); /* 2 cards per row, with 20px margin between them */
+    }
+  }
+  
+  @media screen and (max-width: 550px) {
+    .card {
+      width: calc(
+        (100%) - 20px
+      ); /* 2 cards per row, with 20px margin between them */
+    }
+  }

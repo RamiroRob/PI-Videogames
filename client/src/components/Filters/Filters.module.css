@@ -5,7 +5,11 @@
     align-items: center;
     margin-bottom: 20px;
     width: 96%;
-    margin-left: 2%
+    margin-left: 2%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .filterItem {
@@ -30,8 +34,9 @@
     transition: all 0.3s ease;
 }
 
-.filterItem select:hover, .filterItem select:focus {
-    border-color: #555;
+.filterItem select:hover, 
+.filterItem select:focus {
+    border-color: #0096ff;
 }
 
 @media (max-width: 768px) {
@@ -44,25 +49,6 @@
     }
 }
 
-hr {
-  border: none;
-  height: 4px;
-  position: relative;
-  background-color: transparent;
-}
-
-hr::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(120deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
-  background-size: 200% 200%;
-  animation: gradient 15s ease infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 50%);
-}
   
   @keyframes gradient {
     0% {

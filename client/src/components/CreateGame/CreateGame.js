@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import s from './CreateGame.module.css'
-import {required, minLength, maxLength, isRating} from '../../utils/formValidation'
+import { required, minLength, isRating } from '../../utils/formValidation'
+import { all } from 'axios'
 
 export default function CreateGame() {
 
@@ -24,14 +25,16 @@ export default function CreateGame() {
             const response2 = await response.json()
             const allGenres = response2.map(genre => genre.nombre)
             setGenres(allGenres)
+            console.log(await allGenres)
         }
         getGenre()
+        
     }, [])
 
 
     const handleChange = (e) => {
 
-        const {name, value} = e.target
+        const { name, value } = e.target
         let error;
 
         switch (name) {
@@ -47,7 +50,7 @@ export default function CreateGame() {
             default:
                 error = null;
         }
-    
+
         setErrors((prevErrors) => ({
             ...prevErrors,
             [name]: error,
@@ -80,12 +83,11 @@ export default function CreateGame() {
                 selectedGenres.push(options[i].value)
             }
         }
-        setData((prevData) => ({ 
-            ...prevData, 
+        setData((prevData) => ({
+            ...prevData,
             generos: [...selectedGenres]
         }))
     }
-
 
 
     const handleSubmit = (e) => {
@@ -94,9 +96,9 @@ export default function CreateGame() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-                },
+            },
             body: JSON.stringify(data)
-            })
+        })
             .then(res => res.json())
             .then(data => console.log(data))
             .catch(err => console.log(err))
@@ -105,42 +107,67 @@ export default function CreateGame() {
 
     return (
         <div>
+
+            <h3>Crear un videojuego</h3>
+            <hr />
+
+            <div  className={s.formContainer}>
+
             <form className={s.form} onSubmit={handleSubmit} >
+
+                <div className={s.formGroup}>
                 <label>Nombre</label>
                 <input type="text" name="nombre" value={data.nombre} onChange={handleChange} />
                 {errors.nombre && <p className={s.error}>{errors.nombre}</p>}
+                </div>
 
+                <div className={s.formGroup}>
                 <label>Imagen</label>
                 <input type="text" name="imagen" value={data.imagen} onChange={handleChange} />
+                </div>
 
+                <div className={s.formGroup}>
                 <label>Descripcion</label>
                 <input type="text" name="descripcion" value={data.descripcion} onChange={handleChange} />
                 {errors.descripcion && <p className={s.error}>{errors.descripcion}</p>}
+                </div>
 
+                <div className={s.formGroup}>
                 <label>Fecha de lanzamiento</label>
                 <input type="text" name="fecha_lanzamiento" value={data.fecha_lanzamiento} onChange={handleChange} />
+                </div>
+
+
+                <div className={s.formGroup}>
                 <label>Rating</label>
                 <input type="text" name="rating" value={data.rating} onChange={handleChange} />
                 {errors.rating && <p className={s.error}>{errors.rating}</p>}
-                
+                </div>
+
+
+                <div className={s.formGroup}>
                 <label>Plataformas</label>
                 <input type="text" name="plataformas" value={data.plataformas} onChange={handleChangePlataformas} />
+                </div>
 
+                <div className={s.formGroup}>
                 <label>Generos</label>
                 <select
                     multiple
                     name="generos"
                     onChange={handleSelectChange}
-                    >
+                >
 
-                    {genres?.map((genre,index )=> 
-                    <option value={genre} 
-                    key={index}
-                    >{genre}</option>)}
+                    {genres?.map((genre, index) =>
+                        <option value={genre}
+                            key={index}
+                        >{genre}</option>)}
                 </select>
+                </div>
 
                 <button type="submit">Crear</button>
             </form>
+            </div>
         </div>
     )
 }

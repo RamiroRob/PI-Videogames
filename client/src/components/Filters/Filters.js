@@ -23,7 +23,7 @@ export default function Filters() {
 
         <div>
 
-            <h3>Filtros para la búsqueda - Base de datos completa</h3>
+            <h3>Todos los juegos</h3>
             <hr/>
             
             <div className={s.filtersContainer}>
