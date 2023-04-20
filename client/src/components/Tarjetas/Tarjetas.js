@@ -3,6 +3,7 @@ import Tarjeta from '../Tarjeta/Tarjeta'
 import s from './Tarjetas.module.css'
 import { useSelector } from 'react-redux'
 import Pagination from '../Pagination/Pagination'
+import Spinner from '../Spinner/Spinner'
 
 export default function Tarjetas() {
     const videogames = useSelector(state => state.videogames)
@@ -11,10 +12,11 @@ export default function Tarjetas() {
     const [paginatedVideogames, setPaginatedVideogames] = useState([])
     const [page, setPage] = useState(1)
 
-    
+
+
     useEffect(() => {
         let displayedVideogames = videogames
-    
+
         if (selectedSource === "API" || selectedSource === "DB") {
             displayedVideogames = videogamesFiltered
         }
@@ -29,14 +31,21 @@ export default function Tarjetas() {
     return (
         <div>
             <div className={s.cardContainer}>
-                {paginatedVideogames && paginatedVideogames.map(v =>
-                    <Tarjeta
-                        key={v.id}
-                        id={v.id}
-                        nombre={v.nombre}
-                        imagen={v.imagen}
-                        genres={v.genres?.map(g => g.name).join(', ')}
-                    />)}
+                {paginatedVideogames.length === 0 ? (
+                    <div className={s.spinnerContainer}>
+                        <Spinner />
+                    </div>
+                ) : (
+                    paginatedVideogames && paginatedVideogames.map(v =>
+                        <Tarjeta
+                            key={v.id}
+                            id={v.id}
+                            nombre={v.nombre}
+                            imagen={v.imagen}
+                            genres={v.genres?.map(g => g.name).join(', ')}
+                        />
+                    ))
+                }
             </div>
             <Pagination page={page} handlePageChange={setPage} />
         </div>
