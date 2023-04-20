@@ -11,10 +11,9 @@ import CreateGame from './components/CreateGame/CreateGame';
 
 
 // TODO: componente Detail: se rompe Genre cuando traigo de DB
-// TODO: Cambiar el display para que muestre O el search O todos los resultados
 // TODO: Revisar tema Genres en el back y DB. 
-// TODO: agregar validaciones a createForm
-// TODO: Sacar el slice de 0,15 en API endpoint byName
+// TODO: agregar paginado en search by name
+// TODO: en "search" si no hay nada en el estado de busqueda que no aparezca el cuadrado blanco vacio
 
 
 function App() {
