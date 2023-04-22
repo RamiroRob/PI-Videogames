@@ -10,8 +10,6 @@ import TarjetaDetail from './components/TarjetaDetail/TarjetaDetail';
 import CreateGame from './components/CreateGame/CreateGame';
 
 
-// TODO: componente Detail: se rompe Genre cuando traigo de DB
-// TODO: Revisar tema Genres en el back y DB. 
 // TODO: agregar paginado en search by name
 // TODO: en "search" si no hay nada en el estado de busqueda que no aparezca el cuadrado blanco vacio
 
@@ -38,7 +36,7 @@ function App() {
         <Route path="/" element={<Landing/>} />
         <Route path="/home" element={<Home/>} />
         <Route path="/videogame/:id" element={<TarjetaDetail/>} />
-        <Route path="/videogame/create" element={<CreateGame/>} />
+        <Route path="/create-videogame" element={<CreateGame/>} />
       </Routes>
     </div>
   );

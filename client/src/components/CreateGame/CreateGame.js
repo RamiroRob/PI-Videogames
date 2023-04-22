@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import s from './CreateGame.module.css'
 import { required, minLength, isRating } from '../../utils/formValidation'
+import { useNavigate } from 'react-router-dom'
+import Menu from '../Menu/Menu'
 
 
 export default function CreateGame() {
 
     const [errors, setErrors] = useState({})
+    const navigate = useNavigate()
+    const [successMessage, setSuccessMessage] = useState('');
+
+
 
     const [data, setData] = useState({
         nombre: '',
@@ -28,7 +34,7 @@ export default function CreateGame() {
             console.log(await allGenres)
         }
         getGenre()
-        
+
     }, [])
 
 
@@ -67,7 +73,7 @@ export default function CreateGame() {
     const handleChangePlataformas = (e) => {
         const input = e.target.value
         const resultado = input.split(',')
-  
+
         setData((prevData) => ({
             ...prevData,
             plataformas: resultado
@@ -101,74 +107,92 @@ export default function CreateGame() {
             body: JSON.stringify(data)
         })
             .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(err => console.log(err))
-    }
+            .then(data => {
+                console.log(data)
+                setData({
+                    nombre: '',
+                    imagen: '',
+                    descripcion: '',
+                    fecha_lanzamiento: '',
+                    rating: '',
+                    plataformas: [],
+                    generos: [],
+                });
+
+                setSuccessMessage('Videojuego creado con éxito!');
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 3000);
+            })
+            .catch (err => console.log(err))
+}
 
 
-    return (
-        <div>
+return (
+    <div>
+        <Menu onOptionClick={(option) => navigate(`/${option === 'all' ? 'home' : option}`)} />
 
-            <h3>Crear un videojuego</h3>
-            <hr />
+        <h3>Crear un videojuego</h3>
+        <hr />
 
-            <div  className={s.formContainer}>
+        <div className={s.formContainer}>
 
             <form className={s.form} onSubmit={handleSubmit} >
 
                 <div className={s.formGroup}>
-                <label>Nombre</label>
-                <input type="text" name="nombre" value={data.nombre} onChange={handleChange} />
-                {errors.nombre && <p className={s.error}>{errors.nombre}</p>}
+                    <label>Nombre</label>
+                    <input type="text" name="nombre" value={data.nombre} onChange={handleChange} />
+                    {errors.nombre && <p className={s.error}>{errors.nombre}</p>}
                 </div>
 
                 <div className={s.formGroup}>
-                <label>Imagen</label>
-                <input type="text" name="imagen" value={data.imagen} onChange={handleChange} />
+                    <label>Imagen</label>
+                    <input type="text" name="imagen" value={data.imagen} onChange={handleChange} />
                 </div>
 
                 <div className={s.formGroup}>
-                <label>Descripcion</label>
-                <input type="text" name="descripcion" value={data.descripcion} onChange={handleChange} />
-                {errors.descripcion && <p className={s.error}>{errors.descripcion}</p>}
+                    <label>Descripcion</label>
+                    <input type="text" name="descripcion" value={data.descripcion} onChange={handleChange} />
+                    {errors.descripcion && <p className={s.error}>{errors.descripcion}</p>}
                 </div>
 
                 <div className={s.formGroup}>
-                <label>Fecha de lanzamiento</label>
-                <input type="text" name="fecha_lanzamiento" value={data.fecha_lanzamiento} onChange={handleChange} />
-                </div>
-
-
-                <div className={s.formGroup}>
-                <label>Rating</label>
-                <input type="text" name="rating" value={data.rating} onChange={handleChange} />
-                {errors.rating && <p className={s.error}>{errors.rating}</p>}
+                    <label>Fecha de lanzamiento</label>
+                    <input type="text" name="fecha_lanzamiento" value={data.fecha_lanzamiento} onChange={handleChange} />
                 </div>
 
 
                 <div className={s.formGroup}>
-                <label>Plataformas</label>
-                <input type="text" name="plataformas" value={data.plataformas} onChange={handleChangePlataformas} />
+                    <label>Rating</label>
+                    <input type="text" name="rating" value={data.rating} onChange={handleChange} />
+                    {errors.rating && <p className={s.error}>{errors.rating}</p>}
+                </div>
+
+
+                <div className={s.formGroup}>
+                    <label>Plataformas</label>
+                    <input type="text" name="plataformas" value={data.plataformas} onChange={handleChangePlataformas} />
                 </div>
 
                 <div className={s.formGroup}>
-                <label>Generos</label>
-                <select
-                    multiple
-                    name="generos"
-                    onChange={handleSelectChange}
-                >
+                    <label>Generos</label>
+                    <select
+                        multiple
+                        name="generos"
+                        onChange={handleSelectChange}
+                        >
 
-                    {genres?.map((genre, index) =>
-                        <option value={genre}
+                        {genres?.map((genre, index) =>
+                            <option value={genre}
                             key={index}
-                        >{genre}</option>)}
-                </select>
+                            >{genre}</option>)}
+                    </select>
                 </div>
 
                 <button type="submit">Crear</button>
+        {successMessage && <p className={s.successMessage}>{successMessage}</p>}
             </form>
-            </div>
         </div>
-    )
+    </div>
+)
 }

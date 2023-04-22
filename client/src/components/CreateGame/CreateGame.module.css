@@ -78,5 +78,10 @@
     color: red;
     font-size: 0.8em;
   }
+
+  .successMessage {
+    color: green;
+    font-weight: bold;
+  }
   
   
