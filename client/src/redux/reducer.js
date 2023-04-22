@@ -77,11 +77,10 @@ export const reducer = (state = initialState, actions) => {
             return {
                 ...state,
                 videogamesFiltered: actions.payload,
-                selectedSource: 'SEARCH',
+                // selectedSource: 'SEARCH',
             };
 
         case SET_SEARCH_RESULTS:
-            console.log("Search results payload:", actions.payload);
             return {
                 ...state,
                 searchResults: actions.payload,

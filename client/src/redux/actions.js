@@ -37,7 +37,7 @@ export const orderByName = (payload) => {
     }
 }
 
-// Create a new action to search for videogames by name
+
 export function searchByName(name) {
     return async (dispatch) => {
         try {

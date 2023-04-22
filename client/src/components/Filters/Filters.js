@@ -1,32 +1,49 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import s from './Filters.module.css'
 import { useDispatch } from 'react-redux'
 import { orderByName, orderByRating, selectApiOrDb, setSearchResults, resetSearchResults } from '../../redux/actions';
 import axios from 'axios';
 
+
 export default function Filters() {
 
     const dispatch = useDispatch()
 
-    // Add a new state variable for the search input
-    const [game, setGame] = useState('');
+    /* ----------------------------------- */
+    /* Search Bar                          */
+    /* ----------------------------------- */
 
-    // Add a new function to handle search button click
-    const handleSearch = async () => {
-        try {
-            const response = await axios.get(`http://localhost:3001/videogames?name=${game}`);
+    const [name, setName] = useState('');
 
-            dispatch(setSearchResults(response.data));
-            console.log("Search response:", response.data);
-        } catch (error) {
-            console.error('Error fetching videogames', error);
-        }
-    };
-
-    // Add a new function to handle search input change
     const handleSearchChange = (e) => {
-        setGame(e.target.value);
+        setName(e.target.value);
     };
+
+    const handleSearch = async () => {
+        
+        try {
+            const response = await axios.get(`http://localhost:3001/videogames?name=${name}`);
+            dispatch(setSearchResults(response.data));
+
+        } catch (error) {
+            console.error('Error buscando videojuegos', error);
+    };
+}
+
+    const handleResetSearch = () => {
+        dispatch(resetSearchResults());
+    };
+
+    /* ----------------------------------- */
+    /* Filtros                             */
+    /* ----------------------------------- */
+
+    // Tengo que mandar el valor "AMBOS" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor
+    useEffect(() => {
+        dispatch(selectApiOrDb('AMBOS'));
+    }, []);
+
+
     const handleDataSource = (e) => {
         dispatch(selectApiOrDb(e.target.value))
     };
@@ -39,9 +56,6 @@ export default function Filters() {
         dispatch(orderByRating(e.target.value))
     }
 
-    const handleResetSearch = () => {
-        dispatch(resetSearchResults());
-    };
 
     return (
 
@@ -49,14 +63,15 @@ export default function Filters() {
 
             <h3>Todos los juegos</h3>
             <hr />
-
-            {/* Add the search functionality here */}
+            {/* ------------------------------------------- */}
+            {/* Search Bar                                  */}
+            {/* ------------------------------------------- */}
             <div className={s.searchContainer}>
                 <input
                     className={s.searchInput}
                     type="text"
                     placeholder="Buscar videojuego"
-                    value={game}
+                    value={name}
                     onChange={handleSearchChange}
                 />
                 <button className={s.searchButton} onClick={handleSearch}>
@@ -68,6 +83,11 @@ export default function Filters() {
             </div>
 
             <div className={s.filtersContainer}>
+
+
+                {/* ------------------------------------------- */}
+                {/* Filtros                                     */}
+                {/* ------------------------------------------- */}
 
                 {/* API or DB */}
                 <div className={s.filterItem}>

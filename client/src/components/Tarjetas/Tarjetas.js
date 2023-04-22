@@ -9,35 +9,38 @@ export default function Tarjetas() {
     const videogames = useSelector(state => state.videogames)
     const selectedSource = useSelector(state => state.selectedSource)
     const videogamesFiltered = useSelector(state => state.videogamesFiltered)
-    const searchResults = useSelector(state => state.searchResults)
-    
+    const searchResults = useSelector(state => state.searchResults);
+
     const [paginatedVideogames, setPaginatedVideogames] = useState([])
     const [page, setPage] = useState(1)
 
-
+    const filterBySource = (games, source) => {
+        if (source === "AMBOS") {
+            return games;
+        } else if (source === "API") {
+            return games.filter((game) => !isNaN(game.id));
+        } else if (source === "DB") {
+            return games.filter((game) => isNaN(game.id));
+        }
+    };
+    
     useEffect(() => {
 
         let displayedVideogames = videogames
 
-        const filterBySource = (games, source) => {
-            if (source === "AMBOS") {
-                return games;
-            } else if (source === "API") {
-                return games.filter((game) => !isNaN(game.id));
-            } else if (source === "DB") {
-                return games.filter((game) => isNaN(game.id));
-            }
-        };
-
+        // console.log('Search results:', searchResults)
+        // console.log('Selected source:', selectedSource)
 
         if (searchResults.length > 0) {
             displayedVideogames = filterBySource(searchResults, selectedSource);
         } else if (selectedSource === "API" || selectedSource === "DB") {
             displayedVideogames = videogamesFiltered
+        } else {
+            displayedVideogames = videogames
         }
 
 
-        console.log("Displayed videogames:", displayedVideogames);
+
         displayedVideogames = displayedVideogames || [];
 
         const startIndex = (page - 1) * 15
