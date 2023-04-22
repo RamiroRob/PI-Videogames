@@ -1,12 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import s from './Filters.module.css'
 import { useDispatch } from 'react-redux'
-import { orderByName, orderByRating, selectApiOrDb } from '../../redux/actions';
+import { orderByName, orderByRating, selectApiOrDb, setSearchResults, resetSearchResults } from '../../redux/actions';
+import axios from 'axios';
 
 export default function Filters() {
 
     const dispatch = useDispatch()
 
+    // Add a new state variable for the search input
+    const [game, setGame] = useState('');
+
+    // Add a new function to handle search button click
+    const handleSearch = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3001/videogames?name=${game}`);
+
+            dispatch(setSearchResults(response.data));
+            console.log("Search response:", response.data);
+        } catch (error) {
+            console.error('Error fetching videogames', error);
+        }
+    };
+
+    // Add a new function to handle search input change
+    const handleSearchChange = (e) => {
+        setGame(e.target.value);
+    };
     const handleDataSource = (e) => {
         dispatch(selectApiOrDb(e.target.value))
     };
@@ -19,13 +39,34 @@ export default function Filters() {
         dispatch(orderByRating(e.target.value))
     }
 
+    const handleResetSearch = () => {
+        dispatch(resetSearchResults());
+    };
+
     return (
 
         <div>
 
             <h3>Todos los juegos</h3>
-            <hr/>
-            
+            <hr />
+
+            {/* Add the search functionality here */}
+            <div className={s.searchContainer}>
+                <input
+                    className={s.searchInput}
+                    type="text"
+                    placeholder="Buscar videojuego"
+                    value={game}
+                    onChange={handleSearchChange}
+                />
+                <button className={s.searchButton} onClick={handleSearch}>
+                    Buscar
+                </button>
+                <button className={s.resetButton} onClick={handleResetSearch}>
+                    Mostrar todos los juegos
+                </button>
+            </div>
+
             <div className={s.filtersContainer}>
 
                 {/* API or DB */}

@@ -9,23 +9,43 @@ export default function Tarjetas() {
     const videogames = useSelector(state => state.videogames)
     const selectedSource = useSelector(state => state.selectedSource)
     const videogamesFiltered = useSelector(state => state.videogamesFiltered)
+    const searchResults = useSelector(state => state.searchResults)
+    
     const [paginatedVideogames, setPaginatedVideogames] = useState([])
     const [page, setPage] = useState(1)
 
 
-
     useEffect(() => {
+
         let displayedVideogames = videogames
 
-        if (selectedSource === "API" || selectedSource === "DB") {
+        const filterBySource = (games, source) => {
+            if (source === "AMBOS") {
+                return games;
+            } else if (source === "API") {
+                return games.filter((game) => !isNaN(game.id));
+            } else if (source === "DB") {
+                return games.filter((game) => isNaN(game.id));
+            }
+        };
+
+
+        if (searchResults.length > 0) {
+            displayedVideogames = filterBySource(searchResults, selectedSource);
+        } else if (selectedSource === "API" || selectedSource === "DB") {
             displayedVideogames = videogamesFiltered
         }
+
+
+        console.log("Displayed videogames:", displayedVideogames);
+        displayedVideogames = displayedVideogames || [];
+
         const startIndex = (page - 1) * 15
         const endIndex = startIndex + 15
         const paginatedData = displayedVideogames.slice(startIndex, endIndex)
         setPaginatedVideogames(paginatedData)
 
-    }, [page, videogames, videogamesFiltered, selectedSource])
+    }, [page, videogames, videogamesFiltered, selectedSource, searchResults])
 
 
     return (

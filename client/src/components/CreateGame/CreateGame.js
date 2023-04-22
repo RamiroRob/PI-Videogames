@@ -45,7 +45,7 @@ export default function CreateGame() {
 
         switch (name) {
             case 'nombre':
-                error = !required(value) ? 'Name is required' : null;
+                error = !required(value) ? 'Es obligatorio incluir el nombre' : null;
                 break;
             case 'descripcion':
                 error = !minLength(5)(value) ? 'La descripción debe tener al menos 5 caracteres' : null;
