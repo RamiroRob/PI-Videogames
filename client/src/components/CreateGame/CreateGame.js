@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import s from './CreateGame.module.css'
 import { required, minLength, isRating } from '../../utils/formValidation'
-import { all } from 'axios'
+
 
 export default function CreateGame() {
 
@@ -67,6 +67,7 @@ export default function CreateGame() {
     const handleChangePlataformas = (e) => {
         const input = e.target.value
         const resultado = input.split(',')
+  
         setData((prevData) => ({
             ...prevData,
             plataformas: resultado
