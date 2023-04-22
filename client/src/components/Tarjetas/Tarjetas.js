@@ -13,6 +13,9 @@ export default function Tarjetas() {
 
     const [paginatedVideogames, setPaginatedVideogames] = useState([])
     const [page, setPage] = useState(1)
+    // const [isLoading, setIsLoading] = useState(false);
+
+   
 
     const filterBySource = (games, source) => {
         if (source === "AMBOS") {
@@ -25,11 +28,9 @@ export default function Tarjetas() {
     };
     
     useEffect(() => {
+        // setIsLoading(true);
 
         let displayedVideogames = videogames
-
-        // console.log('Search results:', searchResults)
-        // console.log('Selected source:', selectedSource)
 
         if (searchResults.length > 0) {
             displayedVideogames = filterBySource(searchResults, selectedSource);
@@ -39,22 +40,22 @@ export default function Tarjetas() {
             displayedVideogames = videogames
         }
 
-
-
-        displayedVideogames = displayedVideogames || [];
+        // displayedVideogames = displayedVideogames || [];
 
         const startIndex = (page - 1) * 15
         const endIndex = startIndex + 15
         const paginatedData = displayedVideogames.slice(startIndex, endIndex)
         setPaginatedVideogames(paginatedData)
 
+        
+        // setIsLoading(false);
     }, [page, videogames, videogamesFiltered, selectedSource, searchResults])
 
 
     return (
         <div>
             <div className={s.cardContainer}>
-                {paginatedVideogames.length === 0 ? (
+                {/* isLoading &&  */paginatedVideogames.length === 0 ? (
                     <div className={s.spinnerContainer}>
                         <Spinner />
                     </div>
