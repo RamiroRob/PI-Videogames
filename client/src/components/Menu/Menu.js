@@ -9,8 +9,8 @@ function Menu({ onOptionClick }) {
 
   return (
     <div className={s.menu}>
-      <button onClick={() => onOptionClick('all')}>Todos los juegos</button>
-      <button onClick={() => onOptionClick('search')} >Buscar juego </button>
+      <button onClick={() => onOptionClick('all')}>Buscar Juegos</button>
+      {/* <button onClick={() => onOptionClick('search')} >Buscar juego </button> */}
       <button onClick={() => {onOptionClick('create'); navigate('/create-videogame')}}>Crear juego</button>
     </div>
   );
