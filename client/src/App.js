@@ -10,8 +10,9 @@ import TarjetaDetail from './components/TarjetaDetail/TarjetaDetail';
 import CreateGame from './components/CreateGame/CreateGame';
 
 
-// TODO: agregar paginado en search by name
-// TODO: en "search" si no hay nada en el estado de busqueda que no aparezca el cuadrado blanco vacio
+
+// TODO: hay que arreglar el spinner eterno cuando busco algo en DB que no existe
+// TODO: revisar todas las actions y el reducer a ver si hay que eliminar/modificar algo
 
 
 function App() {

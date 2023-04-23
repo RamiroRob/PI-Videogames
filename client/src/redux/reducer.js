@@ -77,7 +77,6 @@ export const reducer = (state = initialState, actions) => {
             return {
                 ...state,
                 videogamesFiltered: actions.payload,
-                // selectedSource: 'SEARCH',
             };
 
         case SET_SEARCH_RESULTS:
@@ -91,8 +90,6 @@ export const reducer = (state = initialState, actions) => {
                 ...state,
                 searchResults: [],
             };
-
-
 
         default:
             return state
