@@ -39,12 +39,15 @@ export default function Filters() {
     /* Filtros                             */
     /* ----------------------------------- */
 
-    // Tengo que mandar el valor "AMBOS" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor
+    // Tengo que mandar el valor "AMBOS" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor. Por eso agrego el estado local "source" para que empiece desde "AMBOS". En los otros casos no importa porque no necesito que empiece en nada ni que ordene de ninguna manera.
+    const [source, setSource] = useState('AMBOS');
+
     useEffect(() => {
-        dispatch(selectApiOrDb('AMBOS'));
+        dispatch(selectApiOrDb(source));
     }, []);
 
 
+    //Antes tenia estados locales para todo, pero simplifique el codigo y manejo los estados directo en el reducer. Por eso no hay mas estados locales, solo los que necesito para que se cargue el valor "AMBOS" en el select de API o DB.
     const handleDataSource = (e) => {
         dispatch(selectApiOrDb(e.target.value))
     };
@@ -92,7 +95,7 @@ export default function Filters() {
                 {/* API or DB */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">API o DB:</label>
-                    <select id="dropdown" onChange={handleDataSource}>
+                    <select id="dropdown" onChange={handleDataSource} value={source}>
                         <option value="AMBOS">AMBOS</option>
                         <option value="API">API</option>
                         <option value="DB">DB</option>
