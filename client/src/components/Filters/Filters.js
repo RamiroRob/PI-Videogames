@@ -20,18 +20,19 @@ export default function Filters() {
     };
 
     const handleSearch = async () => {
-        
+
         try {
             const response = await axios.get(`http://localhost:3001/videogames?name=${name}`);
             dispatch(setSearchResults(response.data));
 
         } catch (error) {
             console.error('Error buscando videojuegos', error);
-    };
-}
+        };
+    }
 
     const handleResetSearch = () => {
         dispatch(resetSearchResults());
+        setName('');
     };
 
     /* ----------------------------------- */
@@ -66,7 +67,7 @@ export default function Filters() {
             {/* ------------------------------------------- */}
             {/* Search Bar                                  */}
             {/* ------------------------------------------- */}
-            <div className={s.searchContainer}>
+            <div className={s.container}>
                 <input
                     className={s.searchInput}
                     type="text"
@@ -74,20 +75,19 @@ export default function Filters() {
                     value={name}
                     onChange={handleSearchChange}
                 />
-                <button className={s.searchButton} onClick={handleSearch}>
-                    Buscar
-                </button>
-                <button className={s.resetButton} onClick={handleResetSearch}>
-                    Mostrar todos los juegos
-                </button>
+                    <button onClick={handleSearch} className={s.searchButton}>
+                        Buscar
+                    </button>
+                    <button onClick={handleResetSearch} className={s.searchButton}>
+                        Reset
+                    </button>
             </div>
-
-            <div className={s.filtersContainer}>
-
 
                 {/* ------------------------------------------- */}
                 {/* Filtros                                     */}
                 {/* ------------------------------------------- */}
+
+            <div className={s.container}>
 
                 {/* API or DB */}
                 <div className={s.filterItem}>

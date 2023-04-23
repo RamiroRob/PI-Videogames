@@ -1,16 +1,62 @@
-.filtersContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    width: 96%;
-    margin-left: 2%;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* All */
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 93%;
+  margin-left: 2%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+/* Search Section */
+
+.searchInput {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+  border-color: #0096ff;
+}
+
+.searchButton {
+  cursor: pointer;
+  width: 9%;
+  height: 80%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #0096ff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.searchButton:hover {
+  background-color: #007acc;
+}
+
+
+
+/* Filters section */
+
+
 
 .filterItem {
     display: flex;
@@ -49,7 +95,6 @@
     }
 }
 
-  
   @keyframes gradient {
     0% {
       background-position: 0% 50%;
@@ -70,26 +115,5 @@
     text-align:left;
   }
 
-  .searchContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .searchInput {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px 0 0 5px;
-    outline: none;
-    width: 100%;
-    max-width: 400px;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-  }
-  
-  .searchInput:focus {
-    border-color: #0096ff;
-  }
+ 
   
