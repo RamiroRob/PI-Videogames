@@ -13,9 +13,8 @@ export default function Tarjetas() {
 
     const [paginatedVideogames, setPaginatedVideogames] = useState([])
     const [page, setPage] = useState(1)
-    // const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true)
 
-   
 
     const filterBySource = (games, source) => {
         if (source === "AMBOS") {
@@ -28,8 +27,7 @@ export default function Tarjetas() {
     };
     
     useEffect(() => {
-        // setIsLoading(true);
-
+        setIsLoading(true)
         let displayedVideogames = videogames
 
         if (searchResults.length > 0) {
@@ -40,22 +38,22 @@ export default function Tarjetas() {
             displayedVideogames = videogames
         }
 
-        // displayedVideogames = displayedVideogames || [];
-
         const startIndex = (page - 1) * 15
         const endIndex = startIndex + 15
-        const paginatedData = displayedVideogames.slice(startIndex, endIndex)
+        const paginatedData = displayedVideogames?.slice(startIndex, endIndex)
         setPaginatedVideogames(paginatedData)
 
-        
-        // setIsLoading(false);
+        // Para que el spinner desaparezca despues de 5 segundos. Con el ciclo de vida del componente esta pasando algo raro
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 5000)
+            
     }, [page, videogames, videogamesFiltered, selectedSource, searchResults])
-
-
+    
     return (
         <div>
             <div className={s.cardContainer}>
-                {/* isLoading &&  */paginatedVideogames.length === 0 ? (
+                { isLoading && paginatedVideogames?.length === 0 ? (
                     <div className={s.spinnerContainer}>
                         <Spinner />
                     </div>

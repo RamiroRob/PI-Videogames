@@ -68,7 +68,9 @@ const getVideogamesByName = async (req, res) => {
         res.status(404).json({ message: "No se encontro el videojuego", err })
     }
 
+    // if(first15Videogames.length > 0) 
     res.status(200).json(first15Videogames)
+    // res.status(404).json({message: "No se encontro el videojuego"})
 }
 
 

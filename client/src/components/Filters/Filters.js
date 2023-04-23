@@ -39,11 +39,10 @@ export default function Filters() {
     /* Filtros                             */
     /* ----------------------------------- */
 
-    // Tengo que mandar el valor "AMBOS" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor. Por eso agrego el estado local "source" para que empiece desde "AMBOS". En los otros casos no importa porque no necesito que empiece en nada ni que ordene de ninguna manera.
-    const [source, setSource] = useState('AMBOS');
+    // Tengo que mandar el valor "AMBOS" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor.
 
     useEffect(() => {
-        dispatch(selectApiOrDb(source));
+        dispatch(selectApiOrDb("AMBOS"));
     }, []);
 
 
@@ -85,7 +84,6 @@ export default function Filters() {
                         Reset
                     </button>
             </div>
-
                 {/* ------------------------------------------- */}
                 {/* Filtros                                     */}
                 {/* ------------------------------------------- */}
@@ -95,7 +93,7 @@ export default function Filters() {
                 {/* API or DB */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">API o DB:</label>
-                    <select id="dropdown" onChange={handleDataSource} value={source}>
+                    <select id="dropdown1" onChange={handleDataSource} >
                         <option value="AMBOS">AMBOS</option>
                         <option value="API">API</option>
                         <option value="DB">DB</option>
@@ -106,7 +104,7 @@ export default function Filters() {
                 {/* Orden alfabetico */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">Orden alfabético:</label>
-                    <select id="dropdown" onChange={handleOrderChange}>
+                    <select id="dropdown2" onChange={handleOrderChange}>
                         <option value="Elegir opción">Elegir opción</option>
                         <option value="A-Z">A-Z</option>
                         <option value="Z-A">Z-A</option>
@@ -116,7 +114,7 @@ export default function Filters() {
                 {/* Orden por rating */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">Orden por rating:</label>
-                    <select id="dropdown" onChange={handleRatingChange}>
+                    <select id="dropdown3" onChange={handleRatingChange}>
                         <option value="Elegir opción">Elegir opción</option>
                         <option value="Menor a mayor">Menor a mayor</option>
                         <option value="Mayor a menor">Mayor a menor</option>
