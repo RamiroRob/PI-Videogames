@@ -31,7 +31,6 @@ export default function TarjetaDetail() {
     let plataforma;
     let generos;
 
-    // en la API plataforma es un objeto con la propiedad name. En cambio en la base de datos es un array con los valores directos. Chequeo el length del id, ahi veo si viene de API o de DB y en base a eso defino que muestro.
     if (id?.length < 8) {
         plataforma = videogame?.plataformas?.map((p) => p.platform.name).join(', ');
         generos = videogame?.genres?.map((g) => g.name).join(', ');
@@ -39,9 +38,6 @@ export default function TarjetaDetail() {
         plataforma = videogame?.plataformas?.join(', ');    
         generos = videogame?.Genres.map((g) => g.nombre).join(', ');
     }
-
-    console.log(videogame)
-// TODO: hay un problema con Genres. Los de la API vienen con .name pero en la base de datos con .nombre. Hay que ponerlo todo igual porque sino se rompe cuando quiero ver el detalle de genero de un juego de la database, busca .name y no lo encuentra. Creo que lo mejor seria modificar la propiedad de la API para que sea .nombre y asi no hay que modificar nada en el front.
 
     return (
         <div className={s.container}>

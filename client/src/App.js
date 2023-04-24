@@ -10,10 +10,8 @@ import TarjetaDetail from './components/TarjetaDetail/TarjetaDetail';
 import CreateGame from './components/CreateGame/CreateGame';
 
 
-
-// TODO: hay que arreglar el spinner eterno cuando busco algo en DB que no existe
 // TODO: revisar todas las actions y el reducer a ver si hay que eliminar/modificar algo
-
+// TODO: chequear el tema del formulario que no te deje mandar cosas 
 
 function App() {
 
