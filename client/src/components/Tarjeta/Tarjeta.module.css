@@ -1,9 +1,11 @@
 /* Style each card */
 .card {
   width: calc(
-    (100% / 4) - 20px
+    (100% / 4) - 22px
   ); /* 4 cards per row with a little space between them */
   margin-bottom: 30px;
+  margin-right: 10px;
+  margin-left: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;

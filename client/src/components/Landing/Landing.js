@@ -7,11 +7,11 @@ export default function Landing() {
         <div className={s.landingContainer}>
 
             <div className = {s.text}>
-                <h1>Henry Videogames PI</h1>
-                <h2>Ramiro Roballos</h2>
+                <h1 className = {s.titulo}>Henry Videogames PI</h1>
+                <h2 className = {s.subtitulo}>Ramiro Roballos</h2>
             </div>
             <Link to="/home">
-                <button> Ingresar</button>
+                <button className = {s.boton}> Ingresar</button>
             </Link>
         </div>
     )
