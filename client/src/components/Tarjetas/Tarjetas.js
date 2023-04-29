@@ -12,71 +12,80 @@ export default function Tarjetas() {
     const searchResults = useSelector(state => state.searchResults);
     const selectedGenre = useSelector(state => state.selectedGenre)
 
-
     const [paginatedVideogames, setPaginatedVideogames] = useState([])
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(true)
 
 
-    // Complejizar esta funcion con el segundo filtro gender
+    /* -------------------------------------------------------------- */
+    /* Funciones auxiliares para manejar distintos casos por filtro   */
+    /* -------------------------------------------------------------- */
+
+
+    // Esta funcion filterBySource la uso para filtrar los resultados de la busqueda, ya que me traigo searchResults. Si estoy viendo todos los juegos, no hace falta aplicar la funcion porque ya tengo la logica en el reducer (asi de paso practique poner logica en el reducer y en el componente)
     const filterBySource = (games, source) => {
+
         if (source === "AMBOS") {
-            // if gender.length===0
             return games;
-            // else
-            // games.filter(videogame => videogame.gender === gender)
+ 
         } else if (source === "API") {
-            if (selectedGenre === "TODOS") {
                 return games.filter((game) => !isNaN(game.id));
-            } else {
-                return games.filter((game) => !isNaN(game.id).filter((game) => game.genres?.map(g => g.name).includes(selectedGenre)))
-            }
 
         } else if (source === "DB") {
-            if (selectedGenre === "TODOS") {
                 return games.filter((game) => isNaN(game.id));
-            } else {
-                return games.filter((game) => isNaN(game.id).filter((game) => game.genres?.map(g => g.name).includes(selectedGenre)))
-            }
         }
     };
 
+    const filterByGenre = (games, genre) => {
+
+        if (genre === "TODOS") {
+            return games
+            
+        } else {
+            return games.filter(game => game.genres?.some(g => g.name === genre))
+        }
+    }
+
+    // console.log(filterByGenre(videogames, selectedGenre))
+
+
+    /* -------------------------------------------------------------- */
+    /* Decidir que se muestra segun filtros y busqueda                */
+    /* -------------------------------------------------------------- */
     useEffect(() => {
-        // Si se busco algo, se reemplaza displayedVideogames por SearchResults, y ademas se le
+    
         setIsLoading(true)
         let displayedVideogames = videogames
 
         if (searchResults.length > 0) {
             displayedVideogames = filterBySource(searchResults, selectedSource);
+            displayedVideogames = filterByGenre(displayedVideogames, selectedGenre);
+
         } else if (selectedSource === "API" || selectedSource === "DB") {
-            if (selectedGenre === "TODOS") {
-                displayedVideogames = videogamesFiltered
-            } else {
-                displayedVideogames = videogamesFiltered.filter((game) => game.genres?.map(g => g.name).includes(selectedGenre))
-            }
+                // displayedVideogames = videogamesFiltered 
+                displayedVideogames = filterByGenre(videogamesFiltered, selectedGenre)
 
         } else {
-            if (selectedGenre === "TODOS") {
-            displayedVideogames = videogames
-            } else {
-                displayedVideogames = videogames.filter((game) => game.genres?.map(g => g.name).includes(selectedGenre))
-            }
+            displayedVideogames = filterByGenre(videogames, selectedGenre)
+
         }
 
+        /* -------------------------------------------------------------- */
+        /* Paginacion                                                     */
+        /* -------------------------------------------------------------- */
         const startIndex = (page - 1) * 15
         const endIndex = startIndex + 15
         const paginatedData = displayedVideogames?.slice(startIndex, endIndex)
         setPaginatedVideogames(paginatedData)
 
-        // Para que el spinner desaparezca despues de 5 segundos. Con el ciclo de vida del componente esta pasando algo raro
+        // Para que el spinner desaparezca despues de 5 segundos. Con el ciclo de vida del componente esta pasando algo raro asi que puse esta solucion temporal con setTimeout
         setTimeout(() => {
             setIsLoading(false)
         }, 5000)
 
-    }, [page, videogames, videogamesFiltered, selectedSource, searchResults])
+    }, [page, videogames, videogamesFiltered, selectedSource, searchResults, selectedGenre])
 
-
-    console.log(videogames)
+    // console.log(filterByGenre(paginatedVideogames, selectedGenre))
 
     return (
         <div>

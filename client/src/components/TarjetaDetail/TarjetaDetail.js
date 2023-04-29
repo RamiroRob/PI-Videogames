@@ -36,8 +36,11 @@ export default function TarjetaDetail() {
         generos = videogame?.genres?.map((g) => g.name).join(', ');
     } else {
         plataforma = videogame?.plataformas?.join(', ');    
-        generos = videogame?.Genres.map((g) => g.nombre).join(', ');
+        generos = videogame?.genres?.map((g) => g.name).join(', ');
+        // generos = videogame?.Genres.map((g) => g.nombre).join(', ');
     }
+
+    console.log("genres", videogame?.genres)
 
     return (
         <div className={s.container}>

@@ -1,4 +1,4 @@
-const { Videogame, Genre } = require('../db.js')
+const { Videogame, Genre: genre } = require('../db.js')
 const axios = require('axios');
 const { Op } = require("sequelize");
 const { apiVideogameFormatter } = require('../utils/utils.js');
@@ -21,7 +21,7 @@ const getVideogames = async (req, res) => {
 
     // Pedido a la base de datos
     const videogamesDB = await Videogame.findAll({
-        include: Genre
+        include: genre
     })
 
     // Concateno los resultados de la API con los de la base de datos
@@ -45,7 +45,7 @@ const getVideogamesByName = async (req, res) => {
                     [Op.iLike]: `%${name}%` //busca coincidencias en cualquier parte del nombre, ignorando mayusculas y minusculas
                 }
             },
-            include: Genre
+            include: genre
         })
         if (videogamesDB) first15Videogames = [...videogamesDB]
     }
@@ -80,7 +80,7 @@ const getOneVideogame = async (req, res) => {
     try {
 
         // Pedido a la base de datos
-        const videogameDB = await Videogame.findByPk(idVideoGame, {include: Genre})
+        const videogameDB = await Videogame.findByPk(idVideoGame, {include: genre})
         if (videogameDB) return res.status(200).json(videogameDB)
 
     } catch (err) {
@@ -119,16 +119,16 @@ const createVideogame = async (req, res) => {
 
         if (generos.length > 0) {
             await Promise.all(generos.map(async (genero) => {
-                const gen = await Genre.findOrCreate({
+                const gen = await genre.findOrCreate({
                     where: {
-                        nombre: genero
+                        name: genero
                     }
                 })
                 await newVideogame.addGenre(gen[0]) // agrega a la tabla intermedia
             }))
         }
         const videogameWithGenres = await Videogame.findByPk(newVideogame.id, {
-            include: Genre
+            include: genre
         })
 
         return res.status(201).json(videogameWithGenres)

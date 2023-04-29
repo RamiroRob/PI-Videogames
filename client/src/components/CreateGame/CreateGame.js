@@ -33,7 +33,7 @@ export default function CreateGame() {
         async function getGenre() {
             const response = await fetch('http://localhost:3001/genres')
             const response2 = await response.json()
-            const allGenres = response2.map(genre => genre.nombre)
+            const allGenres = response2.map(genre => genre.name)
             setGenres(allGenres)
             console.log(await allGenres)
         }

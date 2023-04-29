@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import s from './Filters.module.css'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { orderByName, orderByRating, selectApiOrDb, selectGenre, setSearchResults, resetSearchResults } from '../../redux/actions';
 import axios from 'axios';
 
@@ -41,19 +41,19 @@ export default function Filters() {
     /* Filtros                             */
     /* ----------------------------------- */
     
-    // Tengo que mandar el valor "Ambos" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor.
     const [genres, setGenres] = useState([])
     
     useEffect(() => {
+        // Tengo que mandar el valor "AMBOS" y "TODOS" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor.
         dispatch(selectApiOrDb("AMBOS"));
         dispatch(selectGenre("TODOS"))
    
         async function getGenre() {
             const response = await fetch('http://localhost:3001/genres')
             const response2 = await response.json()
-            const allGenres = response2.map(genre => genre.nombre)
+            const allGenres = response2.map(genre => genre.name)
             setGenres(allGenres)
-            console.log(await allGenres)
+            // console.log(await allGenres)
         }
         getGenre()
 

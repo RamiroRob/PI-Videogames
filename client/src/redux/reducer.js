@@ -8,7 +8,10 @@ const initialState = {
     searchResults: [],
 }
 
-// Funciones auxiliares para hacer mas legible el reducer
+/* -------------------------------------------------------------- */
+/* Funciones auxiliares                                           */
+/* -------------------------------------------------------------- */
+
 const sortByName = (games, order) => {
     return [...games].sort((a, b) => {
         return order === 'A-Z' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre);
@@ -21,6 +24,10 @@ const sortByRating = (games, order) => {
     });
 };
 
+/* -------------------------------------------------------------- */
+/* Reducer                                                        */
+/* -------------------------------------------------------------- */
+
 
 export const reducer = (state = initialState, actions) => {
     switch (actions.type) {
@@ -31,7 +38,9 @@ export const reducer = (state = initialState, actions) => {
                 videogames: actions.payload
             }
 
-        // Orden
+  /* -------------------------------------------------------------- */
+  /* Orden                                                          */
+  /* -------------------------------------------------------------- */
 
         case ORDER_BY_NAME:
             let sortedVideogames
@@ -83,7 +92,9 @@ export const reducer = (state = initialState, actions) => {
                 };
             }
 
-        //Filtros
+/* -------------------------------------------------------------- */
+/* Filtros                                                        */
+/* -------------------------------------------------------------- */
 
         case SELECT_API_OR_DB:
             if (actions.payload === "AMBOS") {
@@ -92,13 +103,11 @@ export const reducer = (state = initialState, actions) => {
                     selectedSource: actions.payload,
                 }
             } else if (actions.payload === "API") {
-                // if gender.length===0
                 return {
                     ...state,
                     selectedSource: actions.payload,
                     videogamesFiltered: [...state.videogames].filter((game) => !isNaN(game.id))
                 }
-                // else ...
             } else if (actions.payload === "DB") {
                 return {
                     ...state,
@@ -115,12 +124,9 @@ export const reducer = (state = initialState, actions) => {
                 selectedGenre: actions.payload,
             }
 
-        // TODO: eliminar esto cuando vea que no se rompio nada
-        // case SEARCH_BY_NAME: // revisar estos 3
-        //     return {
-        //         ...state,
-        //         videogamesFiltered: actions.payload,
-        //     };
+/* -------------------------------------------------------------- */
+/* Search                                                         */
+/* -------------------------------------------------------------- */
 
         case SET_SEARCH_RESULTS:
             return {

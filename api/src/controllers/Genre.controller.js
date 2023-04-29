@@ -8,7 +8,7 @@ const loadGenres = async (req, res) => {
     await genres.data.results.map(g => {
         Genre.findOrCreate({
             where: {
-                nombre: g.name
+                name: g.name
             }
         })
     })
