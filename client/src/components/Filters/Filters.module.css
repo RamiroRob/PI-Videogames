@@ -56,13 +56,11 @@
 
 /* Filters section */
 
-
-
 .filterItem {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
-    width: calc(33% - 10px);
+    width: calc(25% - 10px);
 }
 
 .filterItem label {

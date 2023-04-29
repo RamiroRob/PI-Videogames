@@ -104,7 +104,7 @@ export default function CreateGame() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        //TODO: validar que no haya errores y que haya cosas completadas antes de mandar
+
         fetch('http://localhost:3001/videogames', {
             method: 'POST',
             headers: {

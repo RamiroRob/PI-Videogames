@@ -1,10 +1,10 @@
-import { ORDER_BY_NAME, ORDER_BY_RATING, GET_VIDEOGAMES, SELECT_API_OR_DB, SET_SEARCH_RESULTS, SEARCH_BY_NAME, RESET_SEARCH_RESULTS } from './actions'
+import { ORDER_BY_NAME, ORDER_BY_RATING, GET_VIDEOGAMES, SELECT_API_OR_DB, SELECT_GENRE, SET_SEARCH_RESULTS, RESET_SEARCH_RESULTS } from './actions'
 
 const initialState = {
     videogames: [],
     videogamesFiltered: [],
     selectedSource: '',
-    // selectedGender: '',
+    selectedGenre: '',
     searchResults: [],
 }
 
@@ -31,14 +31,16 @@ export const reducer = (state = initialState, actions) => {
                 videogames: actions.payload
             }
 
+        // Orden
+
         case ORDER_BY_NAME:
             let sortedVideogames
             let sortedSearchResults
 
             if (state.selectedSource === "API" || state.selectedSource === "DB") {
                 sortedVideogames = sortByName(state.videogamesFiltered, actions.payload);
-                sortedSearchResults = state.searchResults.length > 0 ? sortByName(state.searchResults, actions.payload) : [];                
-                
+                sortedSearchResults = state.searchResults.length > 0 ? sortByName(state.searchResults, actions.payload) : [];
+
                 return {
                     ...state,
                     videogamesFiltered: sortedVideogames,
@@ -48,14 +50,14 @@ export const reducer = (state = initialState, actions) => {
             } else {
                 sortedVideogames = sortByName(state.videogames, actions.payload);
                 sortedSearchResults = state.searchResults.length > 0 ? sortByName(state.searchResults, actions.payload) : [];
-                
+
                 return {
                     ...state,
                     videogames: sortedVideogames,
                     searchResults: sortedSearchResults,
                 };
             }
-                
+
         case ORDER_BY_RATING:
             let sortedByRating
             let sortedSearchByRating
@@ -63,7 +65,7 @@ export const reducer = (state = initialState, actions) => {
             if (state.selectedSource === "API" || state.selectedSource === "DB") {
                 sortedByRating = sortByRating(state.videogamesFiltered, actions.payload);
                 sortedSearchByRating = state.searchResults.length > 0 ? sortByRating(state.searchResults, actions.payload) : [];
-                
+
                 return {
                     ...state,
                     videogamesFiltered: sortedByRating,
@@ -80,32 +82,38 @@ export const reducer = (state = initialState, actions) => {
                     searchResults: sortedSearchByRating,
                 };
             }
-                
+
+        //Filtros
+
         case SELECT_API_OR_DB:
-        if (actions.payload === "AMBOS") {
-            return {
-                ...state,
-                selectedSource: actions.payload,
+            if (actions.payload === "AMBOS") {
+                return {
+                    ...state,
+                    selectedSource: actions.payload,
+                }
+            } else if (actions.payload === "API") {
+                // if gender.length===0
+                return {
+                    ...state,
+                    selectedSource: actions.payload,
+                    videogamesFiltered: [...state.videogames].filter((game) => !isNaN(game.id))
+                }
+                // else ...
+            } else if (actions.payload === "DB") {
+                return {
+                    ...state,
+                    selectedSource: actions.payload,
+                    videogamesFiltered: [...state.videogames].filter((game) => isNaN(game.id))
+                }
             }
-        } else if (actions.payload === "API") {
-            // if gender.length===0
-            return {
-                ...state,
-                selectedSource: actions.payload,
-                videogamesFiltered: [...state.videogames].filter((game) => !isNaN(game.id))
-            }
-            // else ...
-        } else if (actions.payload === "DB") {
-            return {
-                ...state,
-                selectedSource: actions.payload,
-                videogamesFiltered: [...state.videogames].filter((game) => isNaN(game.id))
-            }
-        }
-        return state;
+            return state;
 
 
-        //case SELECT_GENDER
+        case SELECT_GENRE:
+            return {
+                ...state,
+                selectedGenre: actions.payload,
+            }
 
         // TODO: eliminar esto cuando vea que no se rompio nada
         // case SEARCH_BY_NAME: // revisar estos 3

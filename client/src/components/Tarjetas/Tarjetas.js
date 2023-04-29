@@ -10,6 +10,8 @@ export default function Tarjetas() {
     const selectedSource = useSelector(state => state.selectedSource)
     const videogamesFiltered = useSelector(state => state.videogamesFiltered)
     const searchResults = useSelector(state => state.searchResults);
+    const selectedGenre = useSelector(state => state.selectedGenre)
+
 
     const [paginatedVideogames, setPaginatedVideogames] = useState([])
     const [page, setPage] = useState(1)
@@ -24,23 +26,41 @@ export default function Tarjetas() {
             // else
             // games.filter(videogame => videogame.gender === gender)
         } else if (source === "API") {
-            return games.filter((game) => !isNaN(game.id));
+            if (selectedGenre === "TODOS") {
+                return games.filter((game) => !isNaN(game.id));
+            } else {
+                return games.filter((game) => !isNaN(game.id).filter((game) => game.genres?.map(g => g.name).includes(selectedGenre)))
+            }
+
         } else if (source === "DB") {
-            return games.filter((game) => isNaN(game.id));
+            if (selectedGenre === "TODOS") {
+                return games.filter((game) => isNaN(game.id));
+            } else {
+                return games.filter((game) => isNaN(game.id).filter((game) => game.genres?.map(g => g.name).includes(selectedGenre)))
+            }
         }
     };
-    
+
     useEffect(() => {
-        // Si se busco algo, se reemplaza displayedVideogames por SearchResults, y ademas se le aplica el filtro de source
+        // Si se busco algo, se reemplaza displayedVideogames por SearchResults, y ademas se le
         setIsLoading(true)
         let displayedVideogames = videogames
 
         if (searchResults.length > 0) {
             displayedVideogames = filterBySource(searchResults, selectedSource);
         } else if (selectedSource === "API" || selectedSource === "DB") {
-            displayedVideogames = videogamesFiltered
+            if (selectedGenre === "TODOS") {
+                displayedVideogames = videogamesFiltered
+            } else {
+                displayedVideogames = videogamesFiltered.filter((game) => game.genres?.map(g => g.name).includes(selectedGenre))
+            }
+
         } else {
+            if (selectedGenre === "TODOS") {
             displayedVideogames = videogames
+            } else {
+                displayedVideogames = videogames.filter((game) => game.genres?.map(g => g.name).includes(selectedGenre))
+            }
         }
 
         const startIndex = (page - 1) * 15
@@ -52,13 +72,16 @@ export default function Tarjetas() {
         setTimeout(() => {
             setIsLoading(false)
         }, 5000)
-            
+
     }, [page, videogames, videogamesFiltered, selectedSource, searchResults])
-    
+
+
+    console.log(videogames)
+
     return (
         <div>
             <div className={s.cardContainer}>
-                { isLoading && paginatedVideogames?.length === 0 ? (
+                {isLoading && paginatedVideogames?.length === 0 ? (
                     <div className={s.spinnerContainer}>
                         <Spinner />
                     </div>

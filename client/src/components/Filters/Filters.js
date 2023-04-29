@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import s from './Filters.module.css'
-import { useDispatch } from 'react-redux'
-import { orderByName, orderByRating, selectApiOrDb, setSearchResults, resetSearchResults } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux'
+import { orderByName, orderByRating, selectApiOrDb, selectGenre, setSearchResults, resetSearchResults } from '../../redux/actions';
 import axios from 'axios';
 
 
@@ -9,46 +9,66 @@ export default function Filters() {
 
     const dispatch = useDispatch()
 
+    
+    
     /* ----------------------------------- */
     /* Search Bar                          */
     /* ----------------------------------- */
-
+    
     const [name, setName] = useState('');
-
+    
     const handleSearchChange = (e) => {
         setName(e.target.value);
     };
-
+    
     const handleSearch = async () => {
-
+        
         try {
             const response = await axios.get(`http://localhost:3001/videogames?name=${name}`);
             dispatch(setSearchResults(response.data));
-
+            
         } catch (error) {
             console.error('Error buscando videojuegos', error);
         };
     }
-
+    
     const handleResetSearch = () => {
         dispatch(resetSearchResults());
         setName('');
     };
-
+    
     /* ----------------------------------- */
     /* Filtros                             */
     /* ----------------------------------- */
-
-    // Tengo que mandar el valor "AMBOS" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor.
-
+    
+    // Tengo que mandar el valor "Ambos" al store para que ya se cargue, porque sino tiene que esperar hasta que cambie algo para mandar el valor.
+    const [genres, setGenres] = useState([])
+    
     useEffect(() => {
         dispatch(selectApiOrDb("AMBOS"));
-    }, []);
+        dispatch(selectGenre("TODOS"))
+   
+        async function getGenre() {
+            const response = await fetch('http://localhost:3001/genres')
+            const response2 = await response.json()
+            const allGenres = response2.map(genre => genre.nombre)
+            setGenres(allGenres)
+            console.log(await allGenres)
+        }
+        getGenre()
 
-
-    //Antes tenia estados locales para todo, pero simplifique el codigo y manejo los estados directo en el reducer. Por eso no hay mas estados locales, solo los que necesito para que se cargue el valor "AMBOS" en el select de API o DB.
+    }, [])
+    
+    
+    //Antes tenia estados locales para todo, pero simplifique el codigo y manejo los estados directo en el reducer. Por eso no hay mas estados locales, solo los que necesito para que se cargue el valor "Ambos" en el select de API o DB.
     const handleDataSource = (e) => {
         dispatch(selectApiOrDb(e.target.value))
+    };
+
+    //TODO: 
+    const handleGenre = (e) => {
+        dispatch(selectGenre(e.target.value))
+        console.log(e.target.value)
     };
 
     const handleOrderChange = (e) => {
@@ -64,7 +84,7 @@ export default function Filters() {
 
         <div>
 
-            <h3>Todos los juegos</h3>
+            <h3>Buscar juegos</h3>
             <hr />
             {/* ------------------------------------------- */}
             {/* Search Bar                                  */}
@@ -92,14 +112,23 @@ export default function Filters() {
 
                 {/* API or DB */}
                 <div className={s.filterItem}>
-                    <label htmlFor="dropdown">API o DB:</label>
+                    <label htmlFor="dropdown">Api or Db:</label>
                     <select id="dropdown1" onChange={handleDataSource} >
-                        <option value="AMBOS">AMBOS</option>
-                        <option value="API">API</option>
-                        <option value="DB">DB</option>
+                        <option value="AMBOS">Ambos</option>
+                        <option value="API">Api</option>
+                        <option value="DB">Db</option>
                     </select>
                 </div>
 
+                {/* Género */}
+                <div className={s.filterItem}>
+                    <label htmlFor="dropdown">Género</label>
+                        <select name="generos" onChange={handleGenre}>
+                            <option value="TODOS">Todos</option>
+                            {genres?.map((genre, index) =>
+                                <option value={genre} key={index} >{genre}</option>)}
+                        </select>
+                </div> 
 
                 {/* ------------------------------------------- */}
                 {/* Orden                                       */}

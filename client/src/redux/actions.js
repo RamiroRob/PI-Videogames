@@ -3,6 +3,7 @@ import axios from 'axios';
 export const ORDER_BY_NAME = 'ORDER_BY_NAME';
 export const ORDER_BY_RATING = 'ORDER_BY_RATING';
 export const SELECT_API_OR_DB = 'SELECT_API_OR_DB';
+export const SELECT_GENRE = 'SELECT_GENRE';
 export const GET_VIDEOGAMES = 'GET_VIDEOGAMES';
 export const SET_SEARCH_RESULTS = "SET_SEARCH_RESULTS";
 export const SEARCH_BY_NAME = "SEARCH_BY_NAME";
@@ -26,6 +27,12 @@ export const selectApiOrDb = (payload) => {
     }
 }
 
+export const selectGenre = (payload) => {
+    return {
+        type: SELECT_GENRE,
+        payload
+    }
+}
 
 
 // Orden
