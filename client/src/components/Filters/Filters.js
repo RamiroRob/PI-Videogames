@@ -65,10 +65,8 @@ export default function Filters() {
         dispatch(selectApiOrDb(e.target.value))
     };
 
-    //TODO: 
     const handleGenre = (e) => {
         dispatch(selectGenre(e.target.value))
-        console.log(e.target.value)
     };
 
     const handleOrderChange = (e) => {
@@ -84,7 +82,7 @@ export default function Filters() {
 
         <div>
 
-            <h3>Buscar juegos</h3>
+            <h1>Buscar juegos</h1>
             <hr />
             {/* ------------------------------------------- */}
             {/* Search Bar                                  */}

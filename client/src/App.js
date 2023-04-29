@@ -10,11 +10,8 @@ import TarjetaDetail from './components/TarjetaDetail/TarjetaDetail';
 import CreateGame from './components/CreateGame/CreateGame';
 
 
-// TODO: Eliminar la accion y reducer de mas que ya identifique al final del dia
 // TODO: chequear el tema del formulario que no te deje mandar cosas 
 // TODO: agregar una alerta de que no se encuentra el juego si no hay nada
-// TODO: agregar filtrado por genero
-// TODO: arreglar el css de tarjetas con el display flex por tamanio de pantalla
 
 function App() {
 

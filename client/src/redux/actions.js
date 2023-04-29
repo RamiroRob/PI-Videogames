@@ -15,7 +15,9 @@ export const getVideogames = (payload) => {
 }
 
 
-// Filtros
+/* -------------------------------------------------------------- */
+/* Filtros                                                        */
+/* -------------------------------------------------------------- */
 
 export const selectApiOrDb = (payload) => {
     return {
@@ -31,8 +33,10 @@ export const selectGenre = (payload) => {
     }
 }
 
+/* -------------------------------------------------------------- */
+/* Orden                                                          */
+/* -------------------------------------------------------------- */
 
-// Orden
 export const orderByRating = (payload) => {
     return {
         type: ORDER_BY_RATING,
@@ -47,9 +51,9 @@ export const orderByName = (payload) => {
     }
 }
 
-
-
-// Search Bar
+/* -------------------------------------------------------------- */
+/* Search Bar                                                     */
+/* -------------------------------------------------------------- */
 
 export function setSearchResults(results) {
     return {

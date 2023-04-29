@@ -61,6 +61,8 @@
     flex-direction: column;
     margin-bottom: 10px;
     width: calc(25% - 10px);
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 .filterItem label {

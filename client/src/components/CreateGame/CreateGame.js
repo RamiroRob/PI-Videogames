@@ -137,7 +137,7 @@ export default function CreateGame() {
         <div>
             <Menu onOptionClick={(option) => navigate(`/${option === 'all' ? 'home' : option}`)} />
 
-            <h3>Crear un videojuego</h3>
+            <h1>Crear un videojuego</h1>
             <hr />
 
             <div className={s.formContainer}>
