@@ -101,6 +101,11 @@ export default function Filters() {
                 </div>
 
 
+                {/* ------------------------------------------- */}
+                {/* Orden                                       */}
+                {/* ------------------------------------------- */}
+
+
                 {/* Orden alfabetico */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">Orden alfabético:</label>

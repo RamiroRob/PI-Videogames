@@ -4,6 +4,7 @@ const initialState = {
     videogames: [],
     videogamesFiltered: [],
     selectedSource: '',
+    // selectedGender: '',
     searchResults: [],
 }
 
@@ -31,26 +32,55 @@ export const reducer = (state = initialState, actions) => {
             }
 
         case ORDER_BY_NAME:
-            let sortedVideogames = sortByName(state.videogames, actions.payload);
-            let sortedSearchResults = state.searchResults.length > 0 ? sortByName(state.searchResults, actions.payload) : [];
+            let sortedVideogames
+            let sortedSearchResults
 
-            return {
-                ...state,
-                videogames: sortedVideogames,
-                searchResults: sortedSearchResults,
-            };
+            if (state.selectedSource === "API" || state.selectedSource === "DB") {
+                sortedVideogames = sortByName(state.videogamesFiltered, actions.payload);
+                sortedSearchResults = state.searchResults.length > 0 ? sortByName(state.searchResults, actions.payload) : [];                
+                
+                return {
+                    ...state,
+                    videogamesFiltered: sortedVideogames,
+                    searchResults: sortedSearchResults,
+                }
 
-
+            } else {
+                sortedVideogames = sortByName(state.videogames, actions.payload);
+                sortedSearchResults = state.searchResults.length > 0 ? sortByName(state.searchResults, actions.payload) : [];
+                
+                return {
+                    ...state,
+                    videogames: sortedVideogames,
+                    searchResults: sortedSearchResults,
+                };
+            }
+                
         case ORDER_BY_RATING:
-            let sortedByRating = sortByRating(state.videogames, actions.payload);
-            let sortedSearchByRating = state.searchResults.length > 0 ? sortByRating(state.searchResults, actions.payload) : [];
+            let sortedByRating
+            let sortedSearchByRating
 
-            return {
-                ...state,
-                videogames: sortedByRating,
-                searchResults: sortedSearchByRating,
-            };
+            if (state.selectedSource === "API" || state.selectedSource === "DB") {
+                sortedByRating = sortByRating(state.videogamesFiltered, actions.payload);
+                sortedSearchByRating = state.searchResults.length > 0 ? sortByRating(state.searchResults, actions.payload) : [];
+                
+                return {
+                    ...state,
+                    videogamesFiltered: sortedByRating,
+                    searchResults: sortedSearchByRating,
+                }
 
+            } else {
+                sortedByRating = sortByRating(state.videogames, actions.payload);
+                sortedSearchByRating = state.searchResults.length > 0 ? sortByRating(state.searchResults, actions.payload) : [];
+
+                return {
+                    ...state,
+                    videogames: sortedByRating,
+                    searchResults: sortedSearchByRating,
+                };
+            }
+                
         case SELECT_API_OR_DB:
         if (actions.payload === "AMBOS") {
             return {
@@ -58,11 +88,13 @@ export const reducer = (state = initialState, actions) => {
                 selectedSource: actions.payload,
             }
         } else if (actions.payload === "API") {
+            // if gender.length===0
             return {
                 ...state,
                 selectedSource: actions.payload,
                 videogamesFiltered: [...state.videogames].filter((game) => !isNaN(game.id))
             }
+            // else ...
         } else if (actions.payload === "DB") {
             return {
                 ...state,
@@ -73,11 +105,14 @@ export const reducer = (state = initialState, actions) => {
         return state;
 
 
-        case SEARCH_BY_NAME:
-            return {
-                ...state,
-                videogamesFiltered: actions.payload,
-            };
+        //case SELECT_GENDER
+
+        // TODO: eliminar esto cuando vea que no se rompio nada
+        // case SEARCH_BY_NAME: // revisar estos 3
+        //     return {
+        //         ...state,
+        //         videogamesFiltered: actions.payload,
+        //     };
 
         case SET_SEARCH_RESULTS:
             return {

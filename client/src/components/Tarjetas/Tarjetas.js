@@ -16,9 +16,13 @@ export default function Tarjetas() {
     const [isLoading, setIsLoading] = useState(true)
 
 
+    // Complejizar esta funcion con el segundo filtro gender
     const filterBySource = (games, source) => {
         if (source === "AMBOS") {
+            // if gender.length===0
             return games;
+            // else
+            // games.filter(videogame => videogame.gender === gender)
         } else if (source === "API") {
             return games.filter((game) => !isNaN(game.id));
         } else if (source === "DB") {
@@ -27,6 +31,7 @@ export default function Tarjetas() {
     };
     
     useEffect(() => {
+        // Si se busco algo, se reemplaza displayedVideogames por SearchResults, y ademas se le aplica el filtro de source
         setIsLoading(true)
         let displayedVideogames = videogames
 

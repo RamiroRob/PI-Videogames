@@ -16,6 +16,9 @@ export const getVideogames = (payload) => {
     }
 }
 
+
+// Filtros
+
 export const selectApiOrDb = (payload) => {
     return {
         type: SELECT_API_OR_DB,
@@ -23,6 +26,9 @@ export const selectApiOrDb = (payload) => {
     }
 }
 
+
+
+// Orden
 export const orderByRating = (payload) => {
     return {
         type: ORDER_BY_RATING,
@@ -38,19 +44,23 @@ export const orderByName = (payload) => {
 }
 
 
-export function searchByName(name) {
-    return async (dispatch) => {
-        try {
-            const response = await axios.get(`http://localhost:3001/videogames?name=${name}`);
-            dispatch({
-                type: SEARCH_BY_NAME,
-                payload: response.data,
-            });
-        } catch (error) {
-            console.error('Error fetching videogames', error);
-        }
-    };
-}
+
+// Search Bar
+
+// TODO: eliminar esto cuando vea que no se rompio nada
+// export function searchByName(name) {
+//     return async (dispatch) => {
+//         try {
+//             const response = await axios.get(`http://localhost:3001/videogames?name=${name}`);
+//             dispatch({
+//                 type: SEARCH_BY_NAME,
+//                 payload: response.data,
+//             });
+//         } catch (error) {
+//             console.error('Error fetching videogames', error);
+//         }
+//     };
+// }
 
 export function setSearchResults(results) {
     return {
