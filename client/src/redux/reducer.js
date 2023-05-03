@@ -28,7 +28,6 @@ const sortByRating = (games, order) => {
 /* Reducer                                                        */
 /* -------------------------------------------------------------- */
 
-
 export const reducer = (state = initialState, actions) => {
     switch (actions.type) {
 
@@ -38,9 +37,9 @@ export const reducer = (state = initialState, actions) => {
                 videogames: actions.payload
             }
 
-  /* -------------------------------------------------------------- */
-  /* Orden                                                          */
-  /* -------------------------------------------------------------- */
+        /* -------------------------------------------------------------- */
+        /* Orden                                                          */
+        /* -------------------------------------------------------------- */
 
         case ORDER_BY_NAME:
             let sortedVideogames
@@ -92,9 +91,9 @@ export const reducer = (state = initialState, actions) => {
                 };
             }
 
-/* -------------------------------------------------------------- */
-/* Filtros                                                        */
-/* -------------------------------------------------------------- */
+        /* -------------------------------------------------------------- */
+        /* Filtros                                                        */
+        /* -------------------------------------------------------------- */
 
         case SELECT_API_OR_DB:
             if (actions.payload === "AMBOS") {
@@ -117,16 +116,15 @@ export const reducer = (state = initialState, actions) => {
             }
             return state;
 
-
         case SELECT_GENRE:
             return {
                 ...state,
                 selectedGenre: actions.payload,
             }
 
-/* -------------------------------------------------------------- */
-/* Search                                                         */
-/* -------------------------------------------------------------- */
+        /* -------------------------------------------------------------- */
+        /* Search                                                         */
+        /* -------------------------------------------------------------- */
 
         case SET_SEARCH_RESULTS:
             return {
@@ -143,7 +141,6 @@ export const reducer = (state = initialState, actions) => {
         default:
             return state
     }
-
 }
 
 

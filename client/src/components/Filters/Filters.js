@@ -9,8 +9,6 @@ export default function Filters() {
 
     const dispatch = useDispatch()
 
-    
-    
     /* ----------------------------------- */
     /* Search Bar                          */
     /* ----------------------------------- */
@@ -53,14 +51,13 @@ export default function Filters() {
             const response2 = await response.json()
             const allGenres = response2.map(genre => genre.name)
             setGenres(allGenres)
-            // console.log(await allGenres)
+
         }
         getGenre()
 
     }, [])
     
-    
-    //Antes tenia estados locales para todo, pero simplifique el codigo y manejo los estados directo en el reducer. Por eso no hay mas estados locales, solo los que necesito para que se cargue el valor "Ambos" en el select de API o DB.
+    //Antes tenia estados locales para todo, pero simplifique el codigo y manejo los estados directo en el reducer. Por eso no hay mas estados locales.
     const handleDataSource = (e) => {
         dispatch(selectApiOrDb(e.target.value))
     };
@@ -77,11 +74,9 @@ export default function Filters() {
         dispatch(orderByRating(e.target.value))
     }
 
-
     return (
 
         <div>
-
             <h1>Buscar juegos</h1>
             <hr />
             {/* ------------------------------------------- */}
@@ -107,7 +102,7 @@ export default function Filters() {
                 {/* ------------------------------------------- */}
 
             <div className={s.container}>
-
+                
                 {/* API or DB */}
                 <div className={s.filterItem}>
                     <label htmlFor="dropdown">Api or Db:</label>

@@ -8,15 +8,17 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import TarjetaDetail from './components/TarjetaDetail/TarjetaDetail';
 import CreateGame from './components/CreateGame/CreateGame';
-
-
-// TODO: chequear el tema del formulario que no te deje mandar cosas 
+ 
 // TODO: agregar una alerta de que no se encuentra el juego si no hay nada
 
 function App() {
 
   const dispatch = useDispatch()
 
+  /* -------------------------------------------------------------- */
+  /* Traigo los juegos aca para que carguen mas rapido              */
+  /* -------------------------------------------------------------- */
+  
   useEffect(() => {
     getInfo()
   }, [])

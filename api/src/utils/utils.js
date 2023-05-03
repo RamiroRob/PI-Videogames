@@ -8,7 +8,7 @@ function apiVideogameFormatter (videogame) {
         imagen: videogame.background_image,
         fecha_lanzamiento: videogame.released,
         rating: videogame.rating,
-        genres: videogame.genres, //TODO: ver si despues lo eliminamos
+        genres: videogame.genres, 
     }
 }
 

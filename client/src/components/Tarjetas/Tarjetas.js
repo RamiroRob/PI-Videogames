@@ -21,7 +21,6 @@ export default function Tarjetas() {
     /* Funciones auxiliares para manejar distintos casos por filtro   */
     /* -------------------------------------------------------------- */
 
-
     // Esta funcion filterBySource la uso para filtrar los resultados de la busqueda, ya que me traigo searchResults. Si estoy viendo todos los juegos, no hace falta aplicar la funcion porque ya tengo la logica en el reducer (asi de paso practique poner logica en el reducer y en el componente)
     const filterBySource = (games, source) => {
 
@@ -45,9 +44,6 @@ export default function Tarjetas() {
             return games.filter(game => game.genres?.some(g => g.name === genre))
         }
     }
-
-    // console.log(filterByGenre(videogames, selectedGenre))
-
 
     /* -------------------------------------------------------------- */
     /* Decidir que se muestra segun filtros y busqueda                */
@@ -84,8 +80,6 @@ export default function Tarjetas() {
         }, 5000)
 
     }, [page, videogames, videogamesFiltered, selectedSource, searchResults, selectedGenre])
-
-    // console.log(filterByGenre(paginatedVideogames, selectedGenre))
 
     return (
         <div>

@@ -68,9 +68,7 @@ const getVideogamesByName = async (req, res) => {
         res.status(404).json({ message: "No se encontro el videojuego", err })
     }
 
-    // if(first15Videogames.length > 0) 
     res.status(200).json(first15Videogames)
-    // res.status(404).json({message: "No se encontro el videojuego"})
 }
 
 
@@ -78,14 +76,12 @@ const getOneVideogame = async (req, res) => {
     const { idVideoGame } = req.params
 
     try {
-
         // Pedido a la base de datos
         const videogameDB = await Videogame.findByPk(idVideoGame, {include: genre})
         if (videogameDB) return res.status(200).json(videogameDB)
 
     } catch (err) {
         console.log("No se encontro en la DB, buscando en la API...")
-        // res.status(404).json({ message: "No se encontro el videojuego", err })
     }
 
     try {
@@ -95,7 +91,6 @@ const getOneVideogame = async (req, res) => {
 
         // Formateo el resultado de la API
         const result = apiVideogameFormatter(initialResult)
-
 
         if (videogameAPI) return res.status(200).json(result)
 
@@ -107,7 +102,7 @@ const getOneVideogame = async (req, res) => {
 
 const createVideogame = async (req, res) => {
     const { nombre, descripcion, fecha_lanzamiento, rating, plataformas, generos } = req.body
-    // console.log(req.body)
+    
     try {
         const newVideogame = await Videogame.create({
             nombre,

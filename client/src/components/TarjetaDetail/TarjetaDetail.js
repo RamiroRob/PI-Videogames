@@ -9,6 +9,12 @@ export default function TarjetaDetail() {
     const { id } = useParams();
     const [videogame, setVideogame] = useState(null);
 
+
+
+    /* -------------------------------------------------------------- */
+    /* Apenas monto el componente me traigo la info del endpoint      */
+    /* -------------------------------------------------------------- */
+
     useEffect(() => {
         const fetchVideogame = async () => {
             try {
@@ -22,12 +28,17 @@ export default function TarjetaDetail() {
         fetchVideogame();
     }, [id]);
 
+    
     function removeHtmlTags(text) {
         const div = document.createElement('div');
         div.innerHTML = text;
         return div.textContent || div.innerText || '';
     }
 
+
+    /* -------------------------------------------------------------- */
+    /* Como el formato de API y DB no es exactamente igual ajusto     */
+    /* -------------------------------------------------------------- */
     let plataforma;
     let generos;
 
@@ -39,8 +50,6 @@ export default function TarjetaDetail() {
         generos = videogame?.genres?.map((g) => g.name).join(', ');
         // generos = videogame?.Genres.map((g) => g.nombre).join(', ');
     }
-
-    console.log("genres", videogame?.genres)
 
     return (
         <div className={s.container}>

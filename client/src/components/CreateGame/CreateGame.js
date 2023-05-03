@@ -8,9 +8,12 @@ import Menu from '../Menu/Menu'
 export default function CreateGame() {
 
     const [errors, setErrors] = useState({})
-    const navigate = useNavigate()
     const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate()
 
+    /* -------------------------------------------------------------- */
+    /* Estado de todos los fields del formulario                      */
+    /* -------------------------------------------------------------- */
     const [data, setData] = useState({
         nombre: '',
         imagen: '',
@@ -21,11 +24,18 @@ export default function CreateGame() {
         generos: [],
     })
 
+
+
+    /* -------------------------------------------------------------- */
+    /* Funcion para validaciones                                      */
+    /* -------------------------------------------------------------- */
     const isFormValid = () => {
         return data.nombre !== '' && data.imagen !== '' && data.descripcion !== '' && data.fecha_lanzamiento !== '' && data.rating !== '' && data.plataformas.length !== 0 && data.generos.length !== 0;
     };
 
-
+    /* -------------------------------------------------------------- */
+    /* Traer los generos del endpoint y ponerlos en un estado local   */
+    /* -------------------------------------------------------------- */
 
     const [genres, setGenres] = useState([])
 
@@ -41,6 +51,9 @@ export default function CreateGame() {
 
     }, [])
 
+    /* -------------------------------------------------------------- */
+    /* Funciones para manjar el cambio de input y submit              */
+    /* -------------------------------------------------------------- */
 
     const handleChange = (e) => {
 
@@ -72,8 +85,7 @@ export default function CreateGame() {
         }))
     }
 
-
-    // Tuve que crear uno nuevo para que funcione con array, usando split
+    // Tuve que crear uno nuevo para que funcione con el array de plataformas, usando split
     const handleChangePlataformas = (e) => {
         const input = e.target.value
         const resultado = input.split(',')
@@ -83,7 +95,6 @@ export default function CreateGame() {
             plataformas: resultado
         }))
     }
-
 
     // Para cambiar el estado de los generos y mandarlo en el form
     const handleSelectChange = (e) => {
@@ -103,7 +114,6 @@ export default function CreateGame() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
 
         fetch('http://localhost:3001/videogames', {
             method: 'POST',
@@ -181,16 +191,9 @@ export default function CreateGame() {
 
                     <div className={s.formGroup}>
                         <label>Generos</label>
-                        <select
-                            multiple
-                            name="generos"
-                            onChange={handleSelectChange}
-                        >
-
+                        <select multiple name="generos" onChange={handleSelectChange} >
                             {genres?.map((genre, index) =>
-                                <option value={genre}
-                                    key={index}
-                                >{genre}</option>)}
+                                <option value={genre} key={index}>{genre}</option>)}
                         </select>
                     </div>
 
