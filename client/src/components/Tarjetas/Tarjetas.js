@@ -15,6 +15,7 @@ export default function Tarjetas() {
     const [paginatedVideogames, setPaginatedVideogames] = useState([])
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(true)
+    const [cantidadDeJuegos, setCantidadDeJuegos] = useState(0)
 
 
     /* -------------------------------------------------------------- */
@@ -73,14 +74,16 @@ export default function Tarjetas() {
         const endIndex = startIndex + 15
         const paginatedData = displayedVideogames?.slice(startIndex, endIndex)
         setPaginatedVideogames(paginatedData)
-
+        setCantidadDeJuegos(displayedVideogames?.length)
+        
         // Para que el spinner desaparezca despues de 5 segundos. Con el ciclo de vida del componente esta pasando algo raro asi que puse esta solucion temporal con setTimeout
         setTimeout(() => {
             setIsLoading(false)
         }, 5000)
-
+        
     }, [page, videogames, videogamesFiltered, selectedSource, searchResults, selectedGenre])
-
+    
+  
     return (
         <div>
             <div className={s.cardContainer}>
@@ -100,7 +103,7 @@ export default function Tarjetas() {
                     ))
                 }
             </div>
-            <Pagination page={page} handlePageChange={setPage} />
+            <Pagination page={page} handlePageChange={setPage} cantidad={cantidadDeJuegos} />
         </div>
     )
 }
